@@ -7,14 +7,65 @@
     "ctaUrl": ""
   },
   "address": "เลขที่ 170/3 หมู่ที่ 14 ตำบลสันกำแพง อำเภอสันกำแพง จังหวัด เชียงใหม่",
-  "phone": "093-0518591",
+  "phone": "093 051 8591",
   "line": "@partyvilla",
-  "facebook": "https://www.facebook.com/partyvillaballoons",
-  "tiktok": "https://www.tiktok.com/@partyvillaballoon",
-  "pinkyImage": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/06/%E0%B8%A3%E0%B8%96-pinky-%E0%B8%A5%E0%B8%B9%E0%B8%81%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88-1.webp",
-  "images": [
-    "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/06/S__4898839.jpg",
-    "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/05/Pinky-ลูกโป่งเชียงใหม่.jpeg",
-    "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/06/%E0%B8%A3%E0%B8%96-pinky-%E0%B8%A5%E0%B8%B9%E0%B8%81%E0%B9%82%E0%B8%9B%E0%B9%88%E0%B8%87%E0%B9%80%E0%B8%8A%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B9%83%E0%B8%AB%E0%B8%A1%E0%B9%88-1.webp"
+  "facebook": "Party villa balloons chiangmai ร้านลูกโป่ง เชียงใหม่",
+  "tiktok": "@partyvillaballoon",
+  "pinkyImage": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/05/Pinky-ลูกโป่งเชียงใหม่.jpeg",
+  "allImages": [
+    {
+      "src": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png",
+      "alt": "Party Villa"
+    },
+    {
+      "src": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/06/S__4898839.jpg",
+      "alt": ""
+    },
+    {
+      "src": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/05/Pinky-ลูกโป่งเชียงใหม่.jpeg",
+      "alt": ""
+    },
+    {
+      "src": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/pink-canvas-backgroundpng.png",
+      "alt": ""
+    },
+    {
+      "src": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/bg.webp",
+      "alt": ""
+    },
+    {
+      "src": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/M_partyvilla_GW.png",
+      "alt": ""
+    }
+  ],
+  "formFields": [
+    {
+      "label": "ชื่อ-นามสกุล *",
+      "type": "name"
+    },
+    {
+      "label": "เบอร์โทร *",
+      "type": "text"
+    },
+    {
+      "label": "Email",
+      "type": "email"
+    },
+    {
+      "label": "ประเภทงาน",
+      "type": "select"
+    },
+    {
+      "label": "สถานที่จัดงาน",
+      "type": "text"
+    },
+    {
+      "label": "สถานที่จัดงาน เบอร์โทร ข้อความเพิ่มเติม",
+      "type": "text"
+    },
+    {
+      "label": "ข้อความเพิ่มเติม",
+      "type": "textarea"
+    }
   ]
 }

@@ -50,6 +50,22 @@ function extractAllImages(html) {
   return [...urls];
 }
 
+function extractImagesWithAlt($) {
+  const result = [];
+  const seen = new Set();
+  $('img').each((i, img) => {
+    const src = extractImageSrc($, $(img));
+    if (src && !src.includes('.svg') && !src.startsWith('data:')) {
+      const cleanUrl = src.split('?')[0];
+      if (!seen.has(cleanUrl)) {
+        seen.add(cleanUrl);
+        result.push({ src: cleanUrl, alt: $(img).attr('alt') || '' });
+      }
+    }
+  });
+  return result;
+}
+
 function extractHero($) {
   const banner = $('.banner').first();
   const heroImg = banner.find('.banner-bg img.bg').first();
@@ -83,6 +99,8 @@ function cleanText(text) {
     .replace(/\t/g, ' ')
     .replace(/\n{3,}/g, '\n\n')
     .replace(/#text[^}]+}|@media[^}]+}|\.(col-inner|banner|section|row)[^}]+}[^}]*}/g, '')
+    .replace(/#(banner|col|gap|image|text|row|section)_?\d*\s*\{[^}]*\}/g, '')
+    .replace(/#col-\d+\s*>/g, '')
     .replace(/\s{2,}/g, ' ')
     .trim();
 }
@@ -90,8 +108,9 @@ function cleanText(text) {
 function extractSections($) {
   const sections = [];
   $('.section').each((i, el) => {
-    const textEls = $(el).find('.section-content');
-    const textContent = cleanText(textEls.text());
+    const sectionEl = $(el).find('.section-content');
+    sectionEl.find('style').remove();
+    const textContent = cleanText(sectionEl.text());
     const titleEl = $(el).find('h1, h2, h3, h4, strong').first();
     const title = titleEl.text().trim();
     if (textContent && textContent.length > 30 && title) {
@@ -105,34 +124,29 @@ function extractSections($) {
 
 async function scrapeHome(html, $) {
   const hero = extractHero($);
-  const allImages = extractAllImages(html);
+  const allImagesWithAlt = extractImagesWithAlt($);
   const heroBg = hero.background;
 
-  // All real images on the page (exclude hero background, logo, SVG)
-  const galleryImages = allImages
-    .filter(url => url !== heroBg && !url.includes('Logo') && !url.includes('favicon'))
-    .map(url => ({ src: url, alt: '' }));
+  const galleryImages = allImagesWithAlt
+    .filter(img => img.src !== heroBg && !img.src.includes('Logo') && !img.src.includes('favicon'));
 
-  // Pinky image
-  const pinkyImg = allImages.find(url => url.includes('pinky') || url.includes('Pinky')) || '';
+  const pinkyImg = allImagesWithAlt.find(img => img.src.includes('pinky') || img.src.includes('Pinky'));
+  const pinkySrc = pinkyImg ? pinkyImg.src : '';
 
-  // Intro text
   const introEl = $('.section-content p strong').first().parent();
   const intro = cleanText(introEl.text());
-
-  // FAQ extracted from page text on first run
 
   return {
     hero,
     intro: intro || '',
     galleryImages,
-    pinky: { image: pinkyImg },
+    pinky: { image: pinkySrc },
   };
 }
 
 async function scrapeAbout(html, $) {
   const hero = extractHero($);
-  const allImages = extractAllImages(html);
+  const allImages = extractImagesWithAlt($);
   const textSections = extractSections($);
 
   return { hero, images: allImages, textSections };
@@ -140,7 +154,7 @@ async function scrapeAbout(html, $) {
 
 async function scrapeServices(html, $) {
   const hero = extractHero($);
-  const allImages = extractAllImages(html);
+  const allImages = extractImagesWithAlt($);
   const text = $.text();
 
   const pricingUrl = $('a[href*="canva"]').first().attr('href') || '';
@@ -150,34 +164,48 @@ async function scrapeServices(html, $) {
 
 async function scrapeGallery(html, $) {
   const hero = extractHero($);
-  const allImages = extractAllImages(html);
+  const categories = [];
+  const seenUrls = new Set();
 
-  // Gallery categories from the page text
-  const categories = [
-    'ขอแต่งงาน, งานแต่งงาน, วันครบรอบ',
-    'ลูกโป่งตกแต่งโชว์รูมรถ',
-    'งานวันเกิด และงานปาร์ตี้ งานแสดงความยินดี',
-    'Baby Shower, Welcome Baby, ลูกโป่งทายเพศ',
-    'งานองค์กร และกิจกรรม',
-    'แบคดรอป ซุ้มลูกโป่ง และเสาลูกโป่ง',
-    'ลูกโป่งเอฟเฟกต์',
-  ];
+  // Find gallery sections with category headings on the page
+  $('.section-title-main').each((i, el) => {
+    const category = $(el).text().trim();
+    if (!category) return;
 
-  // Try to find which images belong to which category
-  // Since Flatsome loads images via JS, we'll create categories with all gallery images
-  // and let the Astro pages use all images with the category labels
-  const galleryImages = allImages.filter(url => !url.includes('Logo') && !url.includes('favicon') && !url.includes('bg.webp'));
+    const images = [];
+    const colInner = $(el).closest('.col-inner');
+    colInner.find('.gallery-col img').each((j, img) => {
+      const src = extractImageSrc($, $(img));
+      if (src && !src.includes('Logo') && !src.includes('favicon') && !src.includes('bg.webp')) {
+        if (!seenUrls.has(src)) {
+          seenUrls.add(src);
+          images.push({ src, alt: $(img).attr('alt') || '' });
+        }
+      }
+    });
 
-  return {
-    hero,
-    categories,
-    images: galleryImages.map(src => ({ src, alt: '' })),
-  };
+    if (images.length > 0) {
+      categories.push({ category, images });
+    }
+  });
+
+  // Fallback: put all images in one category
+  if (categories.length === 0) {
+    const allImagesWithAlt = extractImagesWithAlt($);
+    const galleryImages = allImagesWithAlt.filter(
+      img => !img.src.includes('Logo') && !img.src.includes('favicon') && !img.src.includes('bg.webp')
+    );
+    if (galleryImages.length > 0) {
+      categories.push({ category: 'ทั้งหมด', images: galleryImages });
+    }
+  }
+
+  return { hero, categories };
 }
 
 async function scrapeBlog(html, $) {
   const hero = extractHero($);
-  const allImages = extractAllImages(html);
+  const allImages = extractImagesWithAlt($);
 
   // Extract blog post entries from the blog listing
   const posts = [];
@@ -225,16 +253,17 @@ async function scrapeBlogPost(url) {
   const $ = cheerio.load(html);
 
   const title = $('.entry-title, h1').first().text().trim();
-  const article = $('.entry-content, article').first();
+  const contentEl = $('.entry-content').first();
+  const article = contentEl.length ? contentEl : $('article').first();
   const body = cleanText(article.text());
   const date = $('time, .entry-date, .post-date').first().text().trim() || '';
   const allImages = extractAllImages(html);
   const image = allImages.find(img => !img.includes('Logo')) || '';
-  const slug = decodeURIComponent(url.split('/').filter(Boolean).pop() || '');
+  const slug = decodeURIComponent(url.split('/').filter(s => s !== '').pop() || '');
 
-  // Structured body
+  // Structured body — iterate direct children and filter by tag
   const bodyParts = [];
-  article.find('> :where(h1,h2,h3,h4,h5,h6,p,ul,ol)').each((i, el) => {
+  article.children().each((i, el) => {
     const tag = $(el).prop('tagName').toLowerCase();
     if (tag.startsWith('h')) {
       bodyParts.push({ type: 'heading', text: $(el).text().trim() });
@@ -254,8 +283,9 @@ async function scrapeBlogPost(url) {
 async function scrapeContact(html, $) {
   const hero = extractHero($);
   const text = $.text();
-  const allImages = extractAllImages(html);
-  const pinkyImage = allImages.find(u => u.includes('pinky') || u.includes('Pinky')) || '';
+  const allImages = extractImagesWithAlt($);
+  const pinkyEntry = allImages.find(u => u.src.includes('pinky') || u.src.includes('Pinky'));
+  const pinkyImage = pinkyEntry ? pinkyEntry.src : '';
 
   // Extract contact info from text
   const address = (text.match(/ที่อยู่\s*:?\s*([^\n]+)/) || [])[1]?.trim() || '';
@@ -264,7 +294,22 @@ async function scrapeContact(html, $) {
   const facebook = (text.match(/Facebook\s*:?\s*([^\n]+)/) || [])[1]?.trim() || '';
   const tiktok = (text.match(/TikTok\s*:?\s*([^\n]+)/) || [])[1]?.trim() || '';
 
-  return { hero, address, phone, line, facebook, tiktok, pinkyImage, allImages };
+  // Extract WPForms form fields if present
+  const formFields = [];
+  $('.wpforms-field').each((i, el) => {
+    const label = $(el).find('.wpforms-field-label').text().trim();
+    const fieldType = $(el).attr('class')?.split(' ').find(c => c.startsWith('wpforms-field-'))?.replace('wpforms-field-', '') || '';
+    if (label) {
+      formFields.push({ label, type: fieldType || 'unknown' });
+    }
+  });
+
+  return {
+    hero, address, phone, line, facebook, tiktok,
+    pinkyImage,
+    allImages,
+    formFields: formFields.length > 0 ? formFields : undefined,
+  };
 }
 
 // ── MAIN ──
@@ -398,12 +443,8 @@ async function main() {
     },
   ]);
 
-  // gallery.json
-  write('gallery.json', {
-    hero: galleryData.hero || {},
-    categories: galleryData.categories || [],
-    images: galleryData.images || [],
-  });
+  // gallery.json — array of { category, images } objects
+  write('gallery.json', galleryData.categories || []);
 
   // blog-posts.json
   write('blog-posts.json', blogPosts);
@@ -411,15 +452,16 @@ async function main() {
   // contact-content.json
   write('contact-content.json', contactData);
 
-  // portfolio-content.json (needed by portfolio page)
+  // portfolio-content.json (needed by portfolio page - hero + flat category names)
   write('portfolio-content.json', {
     hero: galleryData.hero || {},
-    categories: galleryData.categories || [],
+    categories: (galleryData.categories || []).map(c => c.category),
   });
 
+  const totalGalleryImages = (galleryData.categories || []).reduce((sum, c) => sum + (c.images || []).length, 0);
   console.log('\n=== DONE ===');
   console.log(`Total blog posts: ${blogPosts.length}`);
-  console.log(`Gallery images: ${(galleryData.images || []).length}`);
+  console.log(`Gallery images: ${totalGalleryImages}`);
 }
 
 main().catch(err => { console.error('FAILED:', err); process.exit(1); });
