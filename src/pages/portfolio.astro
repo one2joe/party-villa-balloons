@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import gallery from '../data/gallery.json';
+import portfolioContent from '../data/portfolio-content.json';
+
+const heroBg = portfolioContent?.hero?.background || '/images/portfolio-hero.jpg';
+---
+
+<Layout title="ผลงาน | Party Villa Balloons">
+  <Header currentPath={Astro.url.pathname} />
+
+  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-content">
+      <h1>ผลงานของเรา</h1>
+      <p>รวมผลงานการจัดลูกโป่งทุกรูปแบบ</p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container gallery-layout">
+      <aside class="gallery-sidebar">
+        <h3 style="margin-bottom:16px; color:var(--primary);">หมวดหมู่</h3>
+        <nav>
+          <ul style="display:flex; flex-direction:column; gap:4px;">
+            {gallery.map((cat, i) => (
+              <li>
+                <a href={`#cat-${i}`} class="sidebar-link">{cat.category}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div class="sidebar-cta">
+          <p style="margin-bottom:12px; font-weight:500;">สนใจจัดลูกโป่ง?</p>
+          <a href="/contact" class="btn" style="font-size:0.9rem; padding:10px 20px;">ติดต่อเรา</a>
+        </div>
+      </aside>
+
+      <div class="gallery-main">
+        {gallery.filter(cat => cat.images?.length > 0).map((cat, i) => (
+          <div id={`cat-${i}`} class="gallery-section">
+            <h2 class="gallery-section-title">{cat.category}</h2>
+            <div class="gallery-grid">
+              {cat.images.map(img => (
+                <a href={img.src} target="_blank" rel="noopener noreferrer" class="gallery-item">
+                  <img src={img.src} alt={img.alt} loading="lazy" class="gallery-img" />
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .gallery-layout {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+  }
+
+  .gallery-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 100px;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .sidebar-link {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: background 0.3s, color 0.3s;
+  }
+  .sidebar-link:hover {
+    background: var(--bg-light);
+    color: var(--primary);
+  }
+
+  .sidebar-cta {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+  }
+
+  .gallery-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .gallery-section {
+    margin-bottom: 50px;
+  }
+
+  .gallery-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--primary);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .gallery-item {
+    border-radius: 6px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    display: block;
+    cursor: pointer;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .gallery-img:hover {
+    transform: scale(1.08);
+  }
+
+  @media (max-width: 768px) {
+    .gallery-layout {
+      flex-direction: column;
+    }
+    .gallery-sidebar {
+      width: 100%;
+      position: static;
+    }
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
