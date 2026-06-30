@@ -50,7 +50,25 @@ function extractAllImages(html) {
   return [...urls];
 }
 
-function extractImagesWithAlt($) {
+function generateAltFromSrc(src) {
+  try {
+    const urlPath = decodeURIComponent(new URL(src).pathname);
+    let name = urlPath.split('/').pop() || '';
+    name = name.replace(/\.[^.]+$/, '');
+    name = name.replace(/[-_]+/g, ' ');
+    name = name.replace(/\b\d+x\d+\b/g, '');
+    name = name.replace(/\bscaled\b/gi, '');
+    name = name.replace(/\s*\d+(?:\s+\d+)*\s*$/, '');
+    name = name.replace(/\s+/g, ' ').trim();
+    if (!name || name.length <= 2 || /^[A-Za-z0-9]{1,5}$/.test(name)) return '';
+    name = name.replace(/\b([a-z])/g, c => c.toUpperCase());
+    return name;
+  } catch {
+    return '';
+  }
+}
+
+function extractImagesWithAlt($, contextHint = '') {
   const result = [];
   const seen = new Set();
   $('img').each((i, img) => {
@@ -59,7 +77,11 @@ function extractImagesWithAlt($) {
       const cleanUrl = src.split('?')[0];
       if (!seen.has(cleanUrl)) {
         seen.add(cleanUrl);
-        result.push({ src: cleanUrl, alt: $(img).attr('alt') || '' });
+        let alt = $(img).attr('alt') || '';
+        if (!alt) {
+          alt = generateAltFromSrc(cleanUrl) || contextHint;
+        }
+        result.push({ src: cleanUrl, alt });
       }
     }
   });
@@ -124,13 +146,18 @@ function extractSections($) {
 
 async function scrapeHome(html, $) {
   const hero = extractHero($);
-  const allImagesWithAlt = extractImagesWithAlt($);
+  const allImagesWithAlt = extractImagesWithAlt($, 'ผลงานจัดลูกโป่ง Party Villa');
   const heroBg = hero.background;
 
   const galleryImages = allImagesWithAlt
-    .filter(img => img.src !== heroBg && !img.src.includes('Logo') && !img.src.includes('favicon'));
+    .filter(img => img.src !== heroBg && !img.src.includes('Logo') && !img.src.includes('favicon'))
+    .map(img => {
+      if (!img.alt) img.alt = 'ผลงานจัดลูกโป่ง Party Villa';
+      return img;
+    });
 
-  const pinkyImg = allImagesWithAlt.find(img => img.src.includes('pinky') || img.src.includes('Pinky'));
+  const pinkyImg = galleryImages.find(img => img.src.includes('pinky') || img.src.includes('Pinky'));
+  if (pinkyImg) pinkyImg.alt = 'รถบริการลูกโป่ง น้องพิ้งกี้ Party Villa';
   const pinkySrc = pinkyImg ? pinkyImg.src : '';
 
   const introEl = $('.section-content p strong').first().parent();
@@ -146,7 +173,18 @@ async function scrapeHome(html, $) {
 
 async function scrapeAbout(html, $) {
   const hero = extractHero($);
-  const allImages = extractImagesWithAlt($);
+  const allImages = extractImagesWithAlt($, 'Party Villa Balloons').map(img => {
+    if (!img.alt) {
+      if (img.src.includes('คุณอุ้ม') || img.src.includes('owner')) {
+        img.alt = 'อุ้ม เจ้าของ Party Villa Balloons';
+      } else if (img.src.includes('ทีมงาน') || img.src.includes('team')) {
+        img.alt = 'ทีมงาน Party Villa Balloons';
+      } else {
+        img.alt = 'Party Villa Balloons';
+      }
+    }
+    return img;
+  });
   const textSections = extractSections($);
 
   return { hero, images: allImages, textSections };
@@ -154,7 +192,20 @@ async function scrapeAbout(html, $) {
 
 async function scrapeServices(html, $) {
   const hero = extractHero($);
-  const allImages = extractImagesWithAlt($);
+  const allImages = extractImagesWithAlt($, 'บริการจัดลูกโป่ง Party Villa').map(img => {
+    if (!img.alt) {
+      if (img.src.includes('Pinky') || img.src.includes('pinky') || img.src.includes('Delivery')) {
+        img.alt = 'บริการจัดส่งและติดตั้ง Pinky Delivery Party Villa';
+      } else if (img.src.includes('Special') || img.src.includes('Effect')) {
+        img.alt = 'บริการ SnapBloom ลูกโป่งเอฟเฟกต์ Party Villa';
+      } else if (img.src.includes('balloon')) {
+        img.alt = 'บริการจัดลูกโป่งมาตรฐาน Party Villa';
+      } else {
+        img.alt = 'บริการจัดลูกโป่ง Party Villa';
+      }
+    }
+    return img;
+  });
   const text = $.text();
 
   const pricingUrl = $('a[href*="canva"]').first().attr('href') || '';
@@ -179,7 +230,11 @@ async function scrapeGallery(html, $) {
       if (src && !src.includes('Logo') && !src.includes('favicon') && !src.includes('bg.webp')) {
         if (!seenUrls.has(src)) {
           seenUrls.add(src);
-          images.push({ src, alt: $(img).attr('alt') || '' });
+          let alt = $(img).attr('alt') || '';
+          if (!alt) {
+            alt = generateAltFromSrc(src) || `${category} Party Villa`;
+          }
+          images.push({ src, alt });
         }
       }
     });
@@ -191,10 +246,13 @@ async function scrapeGallery(html, $) {
 
   // Fallback: put all images in one category
   if (categories.length === 0) {
-    const allImagesWithAlt = extractImagesWithAlt($);
+    const allImagesWithAlt = extractImagesWithAlt($, 'ผลงาน Party Villa');
     const galleryImages = allImagesWithAlt.filter(
       img => !img.src.includes('Logo') && !img.src.includes('favicon') && !img.src.includes('bg.webp')
-    );
+    ).map(img => {
+      if (!img.alt) img.alt = 'ผลงาน Party Villa';
+      return img;
+    });
     if (galleryImages.length > 0) {
       categories.push({ category: 'ทั้งหมด', images: galleryImages });
     }
@@ -205,7 +263,10 @@ async function scrapeGallery(html, $) {
 
 async function scrapeBlog(html, $) {
   const hero = extractHero($);
-  const allImages = extractImagesWithAlt($);
+  const allImages = extractImagesWithAlt($, 'บทความ Party Villa Balloons').map(img => {
+    if (!img.alt) img.alt = 'บทความ Party Villa Balloons';
+    return img;
+  });
 
   // Extract blog post entries from the blog listing
   const posts = [];
@@ -259,6 +320,7 @@ async function scrapeBlogPost(url) {
   const date = $('time, .entry-date, .post-date').first().text().trim() || '';
   const allImages = extractAllImages(html);
   const image = allImages.find(img => !img.includes('Logo')) || '';
+  const blogTitle = title || 'บทความ Party Villa Balloons';
   const slug = decodeURIComponent(url.split('/').filter(s => s !== '').pop() || '');
 
   // Structured body — iterate direct children and filter by tag
@@ -277,14 +339,19 @@ async function scrapeBlogPost(url) {
     }
   });
 
-  return { title, date, slug, image, body, bodyParts };
+  const imageAlt = image ? (generateAltFromSrc(image) || blogTitle) : '';
+  return { title, date, slug, image, imageAlt, body, bodyParts };
 }
 
 async function scrapeContact(html, $) {
   const hero = extractHero($);
   const text = $.text();
-  const allImages = extractImagesWithAlt($);
+  const allImages = extractImagesWithAlt($, 'Party Villa Balloons').map(img => {
+    if (!img.alt) img.alt = 'Party Villa Balloons';
+    return img;
+  });
   const pinkyEntry = allImages.find(u => u.src.includes('pinky') || u.src.includes('Pinky'));
+  if (pinkyEntry) pinkyEntry.alt = 'รถบริการลูกโป่ง น้องพิ้งกี้ Party Villa';
   const pinkyImage = pinkyEntry ? pinkyEntry.src : '';
 
   // Extract contact info from text
