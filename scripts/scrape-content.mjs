@@ -109,7 +109,9 @@ function extractSocialLinks($) {
   const links = new Set();
   $('a[href*="facebook.com"], a[href*="instagram.com"], a[href*="tiktok.com"], a[href*="line.me"]').each((i, el) => {
     const href = $(el).attr('href');
-    if (href && !href.includes('sharer') && !href.includes('share.php')) {
+    if (href && !href.includes('sharer') && !href.includes('share.php')
+        && !href.includes('/tag/') && !href.includes('/music/')
+        && !href.includes('refer=embed')) {
       links.add(href);
     }
   });
@@ -321,14 +323,21 @@ async function scrapeBlogPost(url) {
   const allImages = extractAllImages(html);
   const image = allImages.find(img => !img.includes('Logo')) || '';
   const blogTitle = title || 'บทความ Party Villa Balloons';
-  const slug = decodeURIComponent(url.split('/').filter(s => s !== '').pop() || '');
+  const rawSlug = blogTitle
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\u0E00-\u0E7F-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+  const slug = rawSlug || decodeURIComponent(url.split('/').filter(s => s !== '').pop() || '');
 
   // Structured body — iterate direct children and filter by tag
   const bodyParts = [];
   article.children().each((i, el) => {
     const tag = $(el).prop('tagName').toLowerCase();
     if (tag.startsWith('h')) {
-      bodyParts.push({ type: 'heading', text: $(el).text().trim() });
+      const t = $(el).text().trim();
+      if (t) bodyParts.push({ type: 'heading', text: t });
     } else if (tag === 'p') {
       const t = $(el).text().trim();
       if (t) bodyParts.push({ type: 'paragraph', text: t });
@@ -465,14 +474,15 @@ async function main() {
   });
 
   // faq.json
-  write('faq.json', [
+  const faqItems = [
     { question: 'ควรรับลูกโป่งก่อนงานกี่ชั่วโมง?', answer: 'แนะนำให้ลูกค้ารับลูกโป่งก่อนเวลาเริ่มงานประมาณ 1-2 ชั่วโมง เพื่อความสวยงาม และความสมบูรณ์แบบของลูกโป่งที่สุดค่ะ' },
     { question: 'หากรับลูกโป่งไปแล้วใช้ไม่ทัน หรือทิ้งไว้นานเกินไป จะเกิดอะไรขึ้น?', answer: 'ลูกโป่งอาจลอยไม่สวย หรือแตกได้ หากไม่ใช้ตามเวลาที่ทางร้านแนะนำ ถ้าหากเกิดปัญหาขึ้นจากการที่ลูกค้าทิ้งลูกโป่งไว้นานเกินไป ทางร้านขอสงวนสิทธิ์ไม่รับผิดชอบในกรณีดังกล่าวทุกกรณีค่ะ' },
     { question: 'ลูกโป่งใช้งานกลางแจ้งได้ไหม?', answer: 'ทางร้านไม่แนะนำให้ใช้ลูกโป่งกลางแจ้งในช่วงกลางวัน เนื่องจากแสงแดด และความร้อนอาจทำให้ลูกโป่งเสื่อมสภาพเร็ว หากจำเป็น ควรเลือกงานช่วงเย็น หรือที่มีร่มเงาค่ะ' },
     { question: 'สามารถปรับเปลี่ยนสี และข้อความบนลูกโป่งได้ไหม?', answer: 'ลูกค้าสามารถปรับเปลี่ยนรูปแบบได้ตามต้องการเลยค่ะ ทั้งโทนสี ข้อความ และลวดลาย เพียงแจ้งความต้องการล่วงหน้า 1-3 วัน' },
     { question: 'การจองงานต้องทำอย่างไรบ้าง?', answer: 'ลูกค้าสามารถจองคิวงานล่วงหน้าได้ตามช่องทางต่าง ๆ ของทางร้าน เราจะทำการรันคิวงานตามลำดับการชำระเงิน และแนะนำให้ลูกค้าจองล่วงหน้าอย่างน้อยสัก 7-14 วัน ก่อนเริ่มวันงานค่ะ' },
     { question: 'ต้องการใบกำกับภาษีต้องทำอย่างไร?', answer: 'แจ้งพนักงานตอนสั่งซื้อได้เลยค่ะ เราสามารถออกใบกำกับภาษีให้ทุกครั้งที่ลูกค้าร้องขอ' },
-  ]);
+  ];
+  write('faq.json', faqItems);
 
   // about-content.json
   write('about-content.json', {
@@ -526,6 +536,13 @@ async function main() {
   });
 
   const totalGalleryImages = (galleryData.categories || []).reduce((sum, c) => sum + (c.images || []).length, 0);
+
+  // Validation
+  if ((galleryData.categories || []).length < 3) console.warn('Warning: Few gallery categories found:', (galleryData.categories || []).length);
+  if (blogPosts.length < 5) console.warn('Warning: Few blog posts found:', blogPosts.length);
+  if (faqItems.length < 4) console.warn('Warning: Few FAQ items found:', faqItems.length);
+  if (socialLinks.length > 10) console.warn('Warning: Too many social links (' + socialLinks.length + '), may include unwanted URLs');
+
   console.log('\n=== DONE ===');
   console.log(`Total blog posts: ${blogPosts.length}`);
   console.log(`Gallery images: ${totalGalleryImages}`);
