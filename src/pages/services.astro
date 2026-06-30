@@ -1,0 +1,53 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import services from '../data/services.json';
+import servicesContent from '../data/services-content.json';
+
+const heroBg = servicesContent.hero?.background || '/images/services-hero.jpg';
+const ctaText = servicesContent.ctaText || 'ดูราคาและแพ็กเกจทั้งหมด';
+const pricingUrl = servicesContent.pricingUrl || '#';
+---
+
+<Layout title="บริการ | Party Villa Balloons">
+  <Header currentPath={Astro.url.pathname} />
+
+  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-content">
+      <h1>บริการของเรา</h1>
+      <p>บริการจัดลูกโป่งครบวงจร</p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <div class="grid-3">
+        {services.map(s => (
+          <div class="service-card" style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius); padding:40px 30px; text-align:center; transition:all 0.3s;">
+            <div style="font-size:2.5rem; margin-bottom:16px;">{s.icon}</div>
+            <h3 style="color:var(--primary); margin-bottom:12px;">{s.title}</h3>
+            <p style="margin-bottom:16px; color:#666;">{s.description}</p>
+            {s.features && s.features.length > 0 && (
+              <ul style="display:flex; flex-direction:column; gap:6px; text-align:left; padding-left:20px;">
+                {s.features.map(f => (
+                  <li style="list-style:disc;">{f}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding" style="background:var(--bg-light); text-align:center;">
+    <div class="container">
+      <h2 class="section-title">รองรับทุกรูปแบบงาน</h2>
+      <p class="section-subtitle">{ctaText}</p>
+      <a href={pricingUrl} target="_blank" class="btn">ดูราคาและแพ็กเกจ</a>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
