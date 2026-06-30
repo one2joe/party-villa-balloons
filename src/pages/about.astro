@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import aboutContent from '../data/about-content.json';
+
+const heroBg = aboutContent.hero?.background || '/images/about-hero.jpg';
+const ownerImages = aboutContent.images || [];
+const sections = aboutContent.sections || [];
+---
+
+<Layout title="เกี่ยวกับเรา | Party Villa Balloons">
+  <Header currentPath={Astro.url.pathname} />
+
+  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-content">
+      <h1>เกี่ยวกับเรา</h1>
+      <p>รู้จักกับ Party Villa Balloons</p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container" style="max-width:900px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;">
+        <div>
+          {ownerImages.length > 0 && (
+            <img src={ownerImages[0].src} alt={ownerImages[0].alt} style="border-radius:var(--radius); box-shadow:var(--shadow-md); width:100%;" />
+          )}
+        </div>
+        <div>
+          {sections.map(section => (
+            <div style="margin-bottom:24px;">
+              {section.title && <h3 style="color:var(--primary); margin-bottom:8px;">{section.title}</h3>}
+              <div style="line-height:2;" set:html={section.content}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {ownerImages.length > 1 && (
+        <div class="grid-3" style="margin-top:40px;">
+          {ownerImages.slice(1).map(img => (
+            <img src={img.src} alt={img.alt} style="border-radius:var(--radius); box-shadow:var(--shadow-sm); width:100%;" />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
