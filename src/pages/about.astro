@@ -7,6 +7,13 @@ import aboutContent from '../data/about-content.json';
 const heroBg = aboutContent.hero?.background || '/images/about-hero.jpg';
 const ownerImages = aboutContent.images || [];
 const sections = aboutContent.sections || [];
+const storySection = sections[1] || null;
+const strengthsSection = sections[2] || null;
+const missionSection = sections[4] || null;
+const tagline = sections[3] || null;
+const ownerPhoto = ownerImages.find(i => i.alt.includes('อุ้ม')) || ownerImages[0] || null;
+const teamImages = ownerImages.filter(i => i.alt.includes('ทีมงาน')) || [];
+const logoImage = ownerImages.find(i => i.alt.includes('Logo')) || null;
 ---
 
 <Layout title="เกี่ยวกับเรา | Party Villa Balloons">
@@ -19,33 +26,107 @@ const sections = aboutContent.sections || [];
     </div>
   </section>
 
+  <!-- Owner Story -->
   <section class="section-padding">
-    <div class="container" style="max-width:900px;">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;">
+    <div class="container" style="max-width:1000px;">
+      <div style="display:grid; grid-template-columns:1fr 1.5fr; gap:50px; align-items:start;">
         <div>
-          {ownerImages.length > 0 && (
-            <img src={ownerImages[0].src} alt={ownerImages[0].alt} style="border-radius:var(--radius); box-shadow:var(--shadow-md); width:100%;" />
+          {ownerPhoto && (
+            <img src={ownerPhoto.src} alt={ownerPhoto.alt} style="border-radius:var(--radius); box-shadow:var(--shadow-md); width:100%;" />
+          )}
+          {logoImage && (
+            <img src={logoImage.src} alt={logoImage.alt} style="margin-top:20px; max-width:200px; display:block; margin-inline:auto;" />
           )}
         </div>
         <div>
-          {sections.map(section => (
-            <div style="margin-bottom:24px;">
-              {section.title && <h3 style="color:var(--primary); margin-bottom:8px;">{section.title}</h3>}
-              <div style="line-height:2;" set:html={section.content}></div>
+          {sections.slice(0, 2).map(section => (
+            <div style="margin-bottom:32px;">
+              <h3 style="color:var(--primary); margin-bottom:12px; font-size:1.3rem;">{section.title}</h3>
+              <div style="line-height:2;" set:html={section.content?.replace(section.title || '', '')?.trim()}></div>
             </div>
           ))}
         </div>
       </div>
-
-      {ownerImages.length > 1 && (
-        <div class="grid-3" style="margin-top:40px;">
-          {ownerImages.slice(1).map(img => (
-            <img src={img.src} alt={img.alt} style="border-radius:var(--radius); box-shadow:var(--shadow-sm); width:100%;" />
-          ))}
-        </div>
-      )}
     </div>
   </section>
 
+  <!-- 7 Strengths -->
+  {strengthsSection && (
+    <section class="section-padding" style="background:var(--bg-light);">
+      <div class="container" style="max-width:900px;">
+        <h2 class="section-title">จุดเด่นของเรา</h2>
+        <p class="section-subtitle">ทำด้วยใจ อะไรก็ดี</p>
+        <div class="strengths-content" set:html={strengthsSection.content?.replace('จุดเด่นของเรา\n', '')}></div>
+      </div>
+    </section>
+  )}
+
+  <!-- Tagline -->
+  {tagline && (
+    <section class="section-padding" style="text-align:center;">
+      <div class="container" style="max-width:800px;">
+        <blockquote style="font-size:1.3rem; color:var(--primary); font-weight:700; line-height:1.6;">
+          "{tagline.title}"
+        </blockquote>
+      </div>
+    </section>
+  )}
+
+  <!-- Team Images -->
+  {teamImages.length > 0 && (
+    <section class="section-padding" style="background:var(--bg-light);">
+      <div class="container" style="max-width:1000px;">
+        <h2 class="section-title">ทีมงานของเรา</h2>
+        <div class="grid-3">
+          {teamImages.map(img => (
+            <img src={img.src} alt={img.alt} style="border-radius:var(--radius); box-shadow:var(--shadow-sm); width:100%;" loading="lazy" />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Mission + Contact -->
+  {missionSection && (
+    <section class="section-padding">
+      <div class="container" style="max-width:900px;">
+        <div class="mission-box" style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius); padding:40px; text-align:center;">
+          <h3 style="color:var(--primary); margin-bottom:16px;">{missionSection.title}</h3>
+          <div style="line-height:2; max-width:700px; margin:0 auto;" set:html={missionSection.content?.replace(missionSection.title || '', '')?.trim()}></div>
+        </div>
+      </div>
+    </section>
+  )}
+
   <Footer />
 </Layout>
+
+<style>
+  .strengths-content {
+    line-height: 2;
+    font-size: 1.05rem;
+  }
+  .strengths-content :global(ol),
+  .strengths-content :global(ul) {
+    padding-left: 24px;
+    margin: 12px 0;
+  }
+  .strengths-content :global(li) {
+    margin-bottom: 8px;
+  }
+  .strengths-content :global(strong) {
+    color: var(--primary);
+  }
+  .mission-box {
+    line-height: 2;
+  }
+  .mission-box :global(a) {
+    color: var(--primary);
+    font-weight: 500;
+  }
+  @media (max-width: 768px) {
+    [style*="grid-template-columns: 1fr 1.5fr"] {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

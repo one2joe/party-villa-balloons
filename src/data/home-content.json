@@ -4,7 +4,9 @@
     "title": "Party villa balloons chiangmai",
     "subtitle": "เติมความสุขทุกงานเทศกาลด้วยลูกโป่ง พร้อมส่งตรงถึงงานด้วยรถ Pinky สุดน่ารัก",
     "ctaText": "ดูผลงานของเรา",
-    "ctaUrl": "https://photos.app.goo.gl/UWgzv4fY73qKjBuW6"
+    "ctaUrl": "https://photos.app.goo.gl/UWgzv4fY73qKjBuW6",
+    "ownerName": "อุ้ม",
+    "ownerTagline": "อุ้ม ดูแลงานเองทุกขั้นตอน"
   },
   "intro": "Party Villa Balloons Chiangmai",
   "galleryImages": [
@@ -50,6 +52,21 @@
     }
   ],
   "pinky": {
-    "image": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/06/รถ-pinky-ลูกโป่งเชียงใหม่-1.webp"
-  }
+    "image": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/06/รถ-pinky-ลูกโป่งเชียงใหม่-1.webp",
+    "description": "รถ Pinky สุดคิ้วท์บริการถึงที่ พร้อมลูกโป่งสวยๆ ส่งตรงถึงงานคุณ"
+  },
+  "tiktokEmbeds": [
+    {
+      "videoId": "7386905948276788481",
+      "url": "https://www.tiktok.com/@partyvillaballoon/video/7386905948276788481"
+    },
+    {
+      "videoId": "7494580703053597960",
+      "url": "https://www.tiktok.com/@partyvillaballoon/video/7494580703053597960"
+    },
+    {
+      "videoId": "7481119032293313800",
+      "url": "https://www.tiktok.com/@partyvillaballoon/video/7481119032293313800"
+    }
+  ]
 }

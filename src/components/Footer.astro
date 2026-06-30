@@ -3,6 +3,7 @@ import siteSettings from '../data/site-settings.json';
 
 const links = siteSettings?.socialLinks || [];
 const facebook = links.find((l: string) => l.includes('facebook.com')) || '';
+const instagram = links.find((l: string) => l.includes('instagram.com')) || '';
 const tiktok = links.find((l: string) => l.includes('tiktok.com')) || '';
 const line = links.find((l: string) => l.includes('line.me')) || '';
 const logoUrl = siteSettings?.logo || '/images/logo.png';
@@ -30,9 +31,9 @@ const year = new Date().getFullYear();
       <div class="footer-col">
         <h4>บริการของเรา</h4>
         <ul>
-          <li><a href="/services">จัดลูกโป่งมาตรฐาน</a></li>
-          <li><a href="/services">SnapBloom ลูกโป่งเอฟเฟกต์</a></li>
-          <li><a href="/services">บริการส่งและติดตั้ง</a></li>
+          <li><a href="/\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23/">จัดลูกโป่งมาตรฐาน</a></li>
+          <li><a href="/\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23/">SnapBloom ลูกโป่งเอฟเฟกต์</a></li>
+          <li><a href="/\u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23/">บริการส่งและติดตั้ง</a></li>
           <li><a href="/portfolio">ดูผลงานทั้งหมด</a></li>
         </ul>
       </div>
@@ -42,6 +43,7 @@ const year = new Date().getFullYear();
         <p>เชียงใหม่และจังหวัดใกล้เคียง</p>
         <div class="footer-social">
           <a href={facebook} target="_blank" class="social-btn" aria-label="Facebook">FB</a>
+          <a href={instagram} target="_blank" class="social-btn" aria-label="Instagram">IG</a>
           <a href={tiktok} target="_blank" class="social-btn" aria-label="TikTok">TT</a>
           <a href={line} target="_blank" class="social-btn" aria-label="LINE">LINE</a>
         </div>
