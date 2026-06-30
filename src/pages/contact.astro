@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import contactContent from '../data/contact-content.json';
 
 const heroBg = contactContent.hero?.background || '/images/contact-hero.jpg';
+const fieldNames = ['name', 'phone', 'email', 'work_type', 'location', 'extra_info', 'message'];
 const infoItems = [
   { label: 'ที่อยู่', value: contactContent.address },
   { label: 'โทรศัพท์', value: contactContent.phone, href: `tel:${contactContent.phone?.replace(/\s/g, '')}`, isLink: true },
@@ -50,13 +51,8 @@ const infoItems = [
         <div class="form-col">
           <h2 class="form-title">ส่งข้อความถึงเรา</h2>
           <form id="contactForm" action="https://api.party-villa-balloons.pages.dev/contact" method="POST">
-            {contactContent.formFields?.map(field => {
-              const name = field.label
-                .replace(/\*/g, '')
-                .replace(/[^a-zA-Z0-9ก-๙]/g, '_')
-                .replace(/_+/g, '_')
-                .replace(/^_|_$/g, '')
-                .toLowerCase() || 'field';
+            {contactContent.formFields?.map((field, i) => {
+              const name = fieldNames[i] || 'field';
               return (
                 <div class="form-group">
                   <label>{field.label}</label>

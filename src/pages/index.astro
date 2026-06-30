@@ -11,7 +11,7 @@ const heroBg = homeContent.hero?.background || '/images/hero-bg.jpg';
 const heroTitle = homeContent.hero?.title || 'Party Villa Balloons';
 const heroSubtitle = homeContent.hero?.subtitle || 'บริการจัดลูกโป่งครบวงจรในเชียงใหม่';
 const pinkyImage = homeContent.pinky?.image || '/images/pinky-car.jpg';
-const pinkyDesc = homeContent.pinky?.description || '';
+const pinkyDesc = homeContent.pinky?.description || 'รถ Pinky สุดคิ้วท์บริการถึงที่ พร้อมลูกโป่งสวยๆ ส่งตรงถึงงานคุณ';
 const intro = homeContent.intro || '';
 ---
 
@@ -70,17 +70,7 @@ const intro = homeContent.intro || '';
     <div class="container">
       <h2 class="section-title">ติดตามเราบน TikTok</h2>
       <p class="section-subtitle">@partyvillaballoon</p>
-      {tiktokEmbeds.length > 0 && (
-        <div class="tiktok-grid">
-          {tiktokEmbeds.slice(0, 5).map(t => (
-            <div class="tiktok-embed-wrapper">
-              <blockquote class="tiktok-embed" cite={t.url} data-video-id={t.id}>
-                <section><a target="_blank" href={t.url}>@{t.handle || 'partyvillaballoon'}</a></section>
-              </blockquote>
-            </div>
-          ))}
-        </div>
-      )}
+      <p style="text-align:center; color:#666; margin-bottom:24px;">สามารถรับชมคลิปเพิ่มเติมได้ทาง TikTok @partyvillaballoon</p>
       <div style="text-align:center; margin-top:30px;">
         <a href="https://www.tiktok.com/@partyvillaballoon" target="_blank" class="btn">ดูเพิ่มเติมบน TikTok</a>
       </div>

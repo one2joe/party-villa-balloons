@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
-import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
+  site: 'https://party-villa-balloons.pages.dev',
   output: 'static',
-  adapter: cloudflare({ mode: 'directory' }),
+  integrations: [sitemap()],
 });

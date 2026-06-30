@@ -45,7 +45,7 @@ const recentPosts = posts.slice(0, 5);
           <h3 style="margin-bottom:12px; color:var(--primary); font-size:1.1rem;">บทความล่าสุด</h3>
           <ul style="display:flex; flex-direction:column; gap:8px;">
             {recentPosts.map(post => (
-              <li><a href={`/blog/${post.slug}`} style="transition:color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color=''">{post.title}</a></li>
+              <li><a href={`/blog/${post.slug}`} class="sidebar-post-link">{post.title}</a></li>
             ))}
           </ul>
         </div>
@@ -60,3 +60,12 @@ const recentPosts = posts.slice(0, 5);
 
   <Footer />
 </Layout>
+
+<style>
+  .sidebar-post-link {
+    transition: color 0.3s;
+  }
+  .sidebar-post-link:hover {
+    color: var(--primary);
+  }
+</style>
