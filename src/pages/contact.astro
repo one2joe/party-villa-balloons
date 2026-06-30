@@ -1,0 +1,254 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import contactContent from '../data/contact-content.json';
+
+const heroBg = contactContent.hero?.background || '/images/contact-hero.jpg';
+const infoItems = [
+  { label: 'ที่อยู่', value: contactContent.address },
+  { label: 'โทรศัพท์', value: contactContent.phone, href: `tel:${contactContent.phone?.replace(/\s/g, '')}`, isLink: true },
+  { label: 'LINE', value: contactContent.line, href: `https://line.me/R/ti/p/${contactContent.line}`, isLink: true },
+  { label: 'Facebook', value: contactContent.facebook, href: 'https://www.facebook.com/partyvillaballoons', isLink: true },
+  { label: 'TikTok', value: contactContent.tiktok, href: 'https://www.tiktok.com/@partyvillaballoon', isLink: true },
+].filter(item => item.value);
+---
+
+<Layout title="ติดต่อเรา | Party Villa Balloons">
+  <Header currentPath={Astro.url.pathname} />
+
+  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-content">
+      <h1>{contactContent.hero?.title || 'ติดต่อเรา'}</h1>
+      <p>{contactContent.hero?.subtitle || 'พูดคุยกับเราได้ทุกช่องทาง'}</p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Left: Contact info -->
+        <div class="contact-info-col">
+          {infoItems.map(item => (
+            <div class="info-card">
+              <h3>{item.label}</h3>
+              {item.isLink
+                ? <a href={item.href} target="_blank" rel="noopener" class="info-link">{item.value}</a>
+                : <p>{item.value}</p>
+              }
+            </div>
+          ))}
+
+          {contactContent.pinkyImage && (
+            <div class="pinky-img">
+              <img src={contactContent.pinkyImage} alt="Pinky Car Party Villa" />
+            </div>
+          )}
+        </div>
+
+        <!-- Right: Form -->
+        <div class="form-col">
+          <h2 class="form-title">ส่งข้อความถึงเรา</h2>
+          <form id="contactForm" action="https://api.party-villa-balloons.pages.dev/contact" method="POST">
+            {contactContent.formFields?.map(field => {
+              const name = field.label
+                .replace(/\*/g, '')
+                .replace(/[^a-zA-Z0-9ก-๙]/g, '_')
+                .replace(/_+/g, '_')
+                .replace(/^_|_$/g, '')
+                .toLowerCase() || 'field';
+              return (
+                <div class="form-group">
+                  <label>{field.label}</label>
+                  {field.type === 'textarea' ? (
+                    <textarea name={name} rows="5"></textarea>
+                  ) : field.type === 'select' ? (
+                    <select name={name}>
+                      <option value="">— กรุณาเลือก —</option>
+                      <option value="จัดเลี้ยง">จัดเลี้ยง</option>
+                      <option value="งานแต่งงาน">งานแต่งงาน</option>
+                      <option value="เปิดร้าน">เปิดร้าน</option>
+                      <option value="อื่นๆ">อื่นๆ</option>
+                    </select>
+                  ) : (
+                    <input type={field.type === 'email' ? 'email' : 'text'} name={name} />
+                  )}
+                </div>
+              );
+            })}
+
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAAA0gFow0IGK1-8IH" data-theme="light"></div>
+            <button type="submit" class="btn btn-submit">ส่งข้อความ</button>
+          </form>
+          <div id="formStatus" class="form-status"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <Footer />
+</Layout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .contact-info-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .info-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+
+  .info-card h3 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1rem;
+  }
+
+  .info-link {
+    color: var(--text-color);
+    transition: color 0.3s;
+  }
+
+  .info-link:hover {
+    color: var(--primary);
+  }
+
+  .pinky-img {
+    margin-top: 12px;
+  }
+
+  .pinky-img img {
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+  }
+
+  .form-col {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 40px;
+  }
+
+  .form-title {
+    margin-bottom: 24px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-main);
+    font-size: 1rem;
+    background: #fff;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+  }
+
+  .cf-turnstile {
+    margin-bottom: 20px;
+  }
+
+  .btn-submit {
+    width: 100%;
+  }
+
+  .form-status {
+    margin-top: 12px;
+    display: none;
+    padding: 12px;
+    border-radius: 6px;
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-info-col {
+      order: 2;
+    }
+
+    .form-col {
+      order: 1;
+      padding: 24px;
+    }
+  }
+</style>
+
+<script>
+  document.getElementById('contactForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const status = document.getElementById('formStatus');
+    const btn = form.querySelector('button[type="submit"]');
+    const formData = new FormData(form);
+
+    if (typeof turnstile !== 'undefined') {
+      const token = turnstile.getResponse();
+      if (!token) {
+        status.textContent = 'กรุณายืนยันว่าไม่ใช่บอท';
+        status.style.background = '#f8d7da';
+        status.style.color = '#721c24';
+        status.style.display = 'block';
+        return;
+      }
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'กำลังส่ง...';
+    status.style.display = 'none';
+
+    try {
+      const res = await fetch('https://api.party-villa-balloons.pages.dev/contact', {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        status.textContent = 'ส่งข้อความสำเร็จ! เราจะติดต่อกลับโดยเร็ว';
+        status.style.background = '#d4edda';
+        status.style.color = '#155724';
+        form.reset();
+        if (typeof turnstile !== 'undefined') turnstile.reset();
+      } else {
+        throw new Error('ส่งไม่สำเร็จ');
+      }
+    } catch (err) {
+      status.textContent = 'เกิดข้อผิดพลาด กรุณาลองใหม่หรือติดต่อผ่าน LINE';
+      status.style.background = '#f8d7da';
+      status.style.color = '#721c24';
+    }
+    status.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'ส่งข้อความ';
+  });
+</script>
