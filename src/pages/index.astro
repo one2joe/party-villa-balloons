@@ -61,7 +61,7 @@ const intro = homeContent.intro || '';
       <div style="max-width:600px; margin:0 auto;">
         <img src={pinkyImage} alt="Pinky car" style="border-radius:var(--radius); box-shadow:var(--shadow-md); width:100%;" />
       </div>
-      <p style="margin-top:24px; max-width:700px; margin-inline:auto;">{pinkyDesc}</p>
+      {pinkyDesc && <p style="margin-top:24px; max-width:700px; margin-inline:auto;">{pinkyDesc}</p>}
     </div>
   </section>
 
@@ -70,15 +70,17 @@ const intro = homeContent.intro || '';
     <div class="container">
       <h2 class="section-title">ติดตามเราบน TikTok</h2>
       <p class="section-subtitle">@partyvillaballoon</p>
-      <div class="tiktok-grid">
-        {tiktokEmbeds.slice(0, 5).map(t => (
-          <div class="tiktok-embed-wrapper">
-            <blockquote class="tiktok-embed" cite={t.url} data-video-id={t.id}>
-              <section><a target="_blank" href={t.url}>@{t.handle || 'partyvillaballoon'}</a></section>
-            </blockquote>
-          </div>
-        ))}
-      </div>
+      {tiktokEmbeds.length > 0 && (
+        <div class="tiktok-grid">
+          {tiktokEmbeds.slice(0, 5).map(t => (
+            <div class="tiktok-embed-wrapper">
+              <blockquote class="tiktok-embed" cite={t.url} data-video-id={t.id}>
+                <section><a target="_blank" href={t.url}>@{t.handle || 'partyvillaballoon'}</a></section>
+              </blockquote>
+            </div>
+          ))}
+        </div>
+      )}
       <div style="text-align:center; margin-top:30px;">
         <a href="https://www.tiktok.com/@partyvillaballoon" target="_blank" class="btn">ดูเพิ่มเติมบน TikTok</a>
       </div>
