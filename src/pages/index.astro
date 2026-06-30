@@ -1,14 +1,215 @@
 ---
-// Party Villa Balloons - placeholder index
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import faq from '../data/faq.json';
+import homeContent from '../data/home-content.json';
+
+const galleryImages = homeContent.galleryImages || [];
+const tiktokEmbeds = homeContent.tiktokEmbeds || [];
+const heroBg = homeContent.hero?.background || '/images/hero-bg.jpg';
+const heroTitle = homeContent.hero?.title || 'Party Villa Balloons';
+const heroSubtitle = homeContent.hero?.subtitle || 'บริการจัดลูกโป่งครบวงจรในเชียงใหม่';
+const pinkyImage = homeContent.pinky?.image || '/images/pinky-car.jpg';
+const pinkyDesc = homeContent.pinky?.description || '';
+const intro = homeContent.intro || '';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Party Villa Balloons</title>
-  </head>
-  <body>
-    <h1>Party Villa Balloons</h1>
-  </body>
-</html>
+<Layout title="Party Villa Balloons | รับจัดลูกโป่งเชียงใหม่ ครบวงจร">
+  <Header currentPath={Astro.url.pathname} />
+
+  <!-- Hero -->
+  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-content">
+      <h1>{heroTitle}</h1>
+      <p>{heroSubtitle}</p>
+      <a href="/portfolio" class="btn btn-outline">ดูผลงานของเรา</a>
+    </div>
+  </section>
+
+  <!-- Welcome -->
+  <section class="section-padding" style="text-align:center;">
+    <div class="container">
+      <p style="font-size:1.2rem; max-width:800px; margin:0 auto; line-height:2;">{intro}</p>
+      <div style="margin-top:30px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://party-villa-balloons.pages.dev/" target="_blank" class="btn" style="background:#1877F2;">แชร์ Facebook</a>
+        <a href="https://line.me/R/msg/text/?Party%20Villa%20Balloons%20https://party-villa-balloons.pages.dev/" target="_blank" class="btn" style="background:#00B900;">แชร์ LINE</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery slider -->
+  <section class="section-padding" style="background:var(--bg-light);">
+    <div class="container">
+      <h2 class="section-title">ผลงานของเรา</h2>
+      <p class="section-subtitle">ภาพตัวอย่างการจัดลูกโป่งในโอกาสต่างๆ</p>
+      <div class="gallery-slider">
+        {galleryImages.slice(0, 10).map(img => (
+          <div class="slider-item">
+            <img src={img.src} alt={img.alt} loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pinky -->
+  <section class="section-padding" style="text-align:center;">
+    <div class="container">
+      <h2 class="section-title">จุดเด่นของเรา</h2>
+      <p class="section-subtitle">น้องพิ้งกี้ รถบริการลูกโป่งเชียงใหม่</p>
+      <div style="max-width:600px; margin:0 auto;">
+        <img src={pinkyImage} alt="Pinky car" style="border-radius:var(--radius); box-shadow:var(--shadow-md); width:100%;" />
+      </div>
+      <p style="margin-top:24px; max-width:700px; margin-inline:auto;">{pinkyDesc}</p>
+    </div>
+  </section>
+
+  <!-- TikTok -->
+  <section class="section-padding" style="background:var(--bg-light);">
+    <div class="container">
+      <h2 class="section-title">ติดตามเราบน TikTok</h2>
+      <p class="section-subtitle">@partyvillaballoon</p>
+      <div class="tiktok-grid">
+        {tiktokEmbeds.slice(0, 5).map(t => (
+          <div class="tiktok-embed-wrapper">
+            <blockquote class="tiktok-embed" cite={t.url} data-video-id={t.id}>
+              <section><a target="_blank" href={t.url}>@{t.handle || 'partyvillaballoon'}</a></section>
+            </blockquote>
+          </div>
+        ))}
+      </div>
+      <div style="text-align:center; margin-top:30px;">
+        <a href="https://www.tiktok.com/@partyvillaballoon" target="_blank" class="btn">ดูเพิ่มเติมบน TikTok</a>
+      </div>
+    </div>
+    <script async src="https://www.tiktok.com/embed.js"></script>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding">
+    <div class="container" style="max-width:800px;">
+      <h2 class="section-title">คำถามที่พบบ่อย</h2>
+      <p class="section-subtitle">FAQ</p>
+      <div class="faq-list">
+        {faq.map((item, i) => (
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>{item.question}</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p set:html={item.answer}></p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-padding" style="background:var(--primary); color:#fff; text-align:center;">
+    <div class="container">
+      <h2 style="font-size:1.8rem; margin-bottom:16px;">มีคำถามเกี่ยวกับการจัดลูกโป่ง?</h2>
+      <p style="font-size:1.1rem; margin-bottom:24px;">อุ้มตอบเองทุกข้อความ</p>
+      <a href="https://line.me/R/ti/p/@partyvilla" target="_blank" class="btn" style="background:#fff; color:var(--primary);">พูดคุยกับเรา</a>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .gallery-slider {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .slider-item {
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: var(--radius);
+    transition: transform 0.3s ease;
+  }
+  .slider-item:hover {
+    transform: scale(1.03);
+  }
+  .slider-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .tiktok-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+  }
+  .tiktok-embed-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+  }
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .faq-item {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: var(--font-main);
+    text-align: left;
+    color: var(--text-color);
+    transition: background 0.2s;
+  }
+  .faq-question:hover {
+    background: var(--bg-light);
+  }
+  .faq-icon {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+    padding: 0 20px;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 300px;
+    padding: 0 20px 16px;
+  }
+  .faq-answer p {
+    line-height: 1.8;
+    color: #555;
+  }
+  @media (max-width: 768px) {
+    .tiktok-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 480px) {
+    .tiktok-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
