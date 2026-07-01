@@ -11,23 +11,23 @@ const storySection = sections[1] || null;
 const strengthsSection = sections[2] || null;
 const missionSection = sections[4] || null;
 const tagline = aboutContent.sections?.[3] || null;
-const ownerPhoto = ownerImages.find(i => i.alt.includes('\u0E2D\u0E38\u0E49\u0E21')) || ownerImages[1] || null;
-const teamImages = ownerImages.filter(i => i.alt.includes('\u0E17\u0E35\u0E21\u0E07\u0E32\u0E19')) || [];
+const ownerPhoto = ownerImages.find(i => i.alt.includes('อุ้ม')) || ownerImages[1] || null;
+const teamImages = ownerImages.filter(i => i.alt.includes('ทีมงาน')) || [];
 const logoImage = ownerImages.find(i => i.alt.includes('Logo')) || null;
-const heroPhoto = ownerImages.find(i => i.src.includes('\u0E04\u0E38\u0E13\u0E2D\u0E38\u0E49\u0E21-\u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07\u0E40\u0E0A\u0E35\u0E22\u0E07\u0E43\u0E2B\u0E21\u0E48-5')) || null;
+const heroPhoto = ownerImages.find(i => i.src.includes('คุณอุ้ม-ลูกโป่งเชียงใหม่-5')) || null;
 
-const strengthsContent = strengthsSection?.content?.replace('\u0E08\u0E38\u0E14\u0E40\u0E14\u0E48\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32\n', '') || '';
-const storyContent = storySection?.content?.replace('\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E40\u0E23\u0E32\n', '') || '';
+const strengthsContent = strengthsSection?.content?.replace('จุดเด่นของเรา\n', '') || '';
+const storyContent = storySection?.content?.replace('เกี่ยวกับเรา\n', '') || '';
 const missionContent = missionSection?.content?.replace(missionSection?.title || '', '')?.trim() || '';
 ---
 
-<Layout title={'\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E40\u0E23\u0E32 | Party Villa Balloons'}>
+<Layout title={'เกี่ยวกับเรา | Party Villa Balloons'}>
   <Header currentPath={Astro.url.pathname} />
 
   <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
     <div class="hero-content">
-      <h1>{'\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E40\u0E23\u0E32'}</h1>
-      <p>{'\u0E23\u0E39\u0E49\u0E08\u0E31\u0E01\u0E01\u0E31\u0E1A Party Villa Balloons'}</p>
+      <h1>{'เกี่ยวกับเรา'}</h1>
+      <p>{'รู้จักกับ Party Villa Balloons'}</p>
     </div>
   </section>
 
@@ -46,8 +46,8 @@ const missionContent = missionSection?.content?.replace(missionSection?.title ||
           )}
         </div>
         <div class="story-text">
-          <h3 class="section-subtitle" style="color:var(--primary); font-weight:400;">{'\u0E08\u0E32\u0E01\u0E04\u0E27\u0E32\u0E21\u0E0A\u0E2D\u0E1A\u0E2A\u0E39\u0E48\u0E04\u0E27\u0E32\u0E21\u0E40\u0E0A\u0E35\u0E48\u0E22\u0E27\u0E0A\u0E32\u0E0D'}</h3>
-          <h2 class="story-heading">{'\u0E40\u0E2A\u0E49\u0E19\u0E17\u0E32\u0E07\u0E02\u0E2D\u0E07 Party Villa Balloon \u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07\u0E40\u0E0A\u0E35\u0E22\u0E07\u0E43\u0E2B\u0E21\u0E48'}</h2>
+          <h3 class="section-subtitle" style="color:var(--primary); font-weight:400;">{'จากความชอบสู่ความเชี่ยวชาญ'}</h3>
+          <h2 class="story-heading">{'เส้นทางของ Party Villa Balloon ลูกโป่งเชียงใหม่'}</h2>
           <div class="story-body" set:html={storyContent}></div>
         </div>
       </div>
@@ -58,8 +58,8 @@ const missionContent = missionSection?.content?.replace(missionSection?.title ||
     <section class="section-padding" style="background:var(--bg-light);">
       <div class="container" style="max-width:900px;">
         <div class="strengths-header">
-          <h2 class="section-title">{'\u0E08\u0E38\u0E14\u0E40\u0E14\u0E48\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32'}</h2>
-          <p class="section-subtitle">{'\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17 \u0E1B\u0E32\u0E23\u0E4C\u0E15\u0E35\u0E49 \u0E27\u0E34\u0E25\u0E25\u0E48\u0E32 \u0E1A\u0E2D\u0E25\u0E25\u0E39\u0E19 \u0E08\u0E33\u0E01\u0E31\u0E14 \u0E40\u0E1B\u0E47\u0E19\u0E1C\u0E39\u0E49\u0E40\u0E0A\u0E35\u0E48\u0E22\u0E27\u0E0A\u0E32\u0E0D\u0E14\u0E49\u0E32\u0E19\u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07\u0E15\u0E01\u0E41\u0E15\u0E48\u0E07\u0E17\u0E38\u0E01\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17 \u0E14\u0E49\u0E27\u0E22\u0E1B\u0E23\u0E30\u0E2A\u0E1A\u0E01\u0E32\u0E23\u0E13\u0E4C\u0E21\u0E32\u0E01\u0E01\u0E27\u0E48\u0E32 8 \u0E1B\u0E35'}</p>
+          <h2 class="section-title">{'จุดเด่นของเรา'}</h2>
+          <p class="section-subtitle">{'บริษัท ปาร์ตี้ วิลล่า บอลลูน จำกัด เป็นผู้เชี่ยวชาญด้านลูกโป่งตกแต่งทุกประเภท ด้วยประสบการณ์มากกว่า 8 ปี'}</p>
         </div>
         <div class="strengths-content" set:html={strengthsContent}></div>
       </div>
@@ -79,7 +79,7 @@ const missionContent = missionSection?.content?.replace(missionSection?.title ||
   {teamImages.length > 0 && (
     <section class="section-padding" style="background:var(--bg-light);">
       <div class="container" style="max-width:1000px;">
-        <h2 class="section-title">{'\u0E17\u0E35\u0E21\u0E07\u0E32\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32'}</h2>
+        <h2 class="section-title">{'ทีมงานของเรา'}</h2>
         <div class="team-grid">
           {teamImages.map(img => (
             <div class="team-card">
@@ -129,3 +129,4 @@ const missionContent = missionSection?.content?.replace(missionSection?.title ||
   .mission-body :global(a) { color: var(--primary); font-weight: 500; }
   @media (max-width: 768px) { .story-grid { grid-template-columns: 1fr; } .team-grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
+
