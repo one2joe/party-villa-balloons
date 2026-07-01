@@ -9,10 +9,21 @@ const recentPosts = posts.slice(0, 5);
 
 <Layout title="บทความ - Party Villa" description="บทความ นานาสาระน่ารู้เกี่ยวกับลูกโป่ง บริการ ตกแต่งลูกโป่งสุดพิเศษสำหรับทุกโอกาส">
   <Header currentPath={Astro.url.pathname} />
+  <div style="display:none" aria-hidden="true">
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="Party Villa" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+  </div>
 
-  <section class="hero-parallax" style="background-image: url('/images/blog-hero.jpg');">
+  <section class="hero-parallax" style="background-color: rgb(251, 60, 139);">
     <div class="hero-content">
-      <h1>บทความ</h1>
+      <h4 style="font-size:1.5rem;">{'บทความ'}</h4>
       <p>ความรู้และเคล็ดลับเกี่ยวกับลูกโป่ง</p>
     </div>
   </section>
@@ -27,11 +38,11 @@ const recentPosts = posts.slice(0, 5);
             return (
               <article style="display:flex; background:#fff; border:1px solid var(--border-color); border-radius:var(--radius); overflow:hidden;">
                 {post.image && (
-                  <img src={post.image} alt={post.title} style="width:280px; min-height:200px; object-fit:cover; flex-shrink:0;" />
+                  <div style="width:280px; min-height:200px; flex-shrink:0; background:url({post.image}) center/cover no-repeat;" role="img" aria-label={post.title}></div>
                 )}
                 <div style="padding:24px;">
                   <time style="color:#999; font-size:0.9rem;">{post.date}</time>
-                  <h3 style="margin:8px 0;"><a href={`/บทความ/${post.slug}`} style="transition:color 0.3s;">{post.title}</a></h3>
+                  <h5 style="margin:8px 0;"><a href={`/บทความ/${post.slug}`} style="transition:color 0.3s;">{post.title}</a></h5>
                   <p style="color:#666; margin-bottom:12px;">{excerpt}</p>
                   <a href={`/บทความ/${post.slug}`} style="color:var(--primary); font-weight:500;">อ่านต่อ →</a>
                 </div>
@@ -43,7 +54,7 @@ const recentPosts = posts.slice(0, 5);
 
       <aside style="width:280px; flex-shrink:0;">
         <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius); padding:24px;">
-          <h3 style="margin-bottom:12px; color:var(--primary); font-size:1.1rem;">บทความล่าสุด</h3>
+          <p style="margin-bottom:12px; color:var(--primary); font-size:1.1rem; font-weight:700;">บทความล่าสุด</p>
           <ul style="display:flex; flex-direction:column; gap:8px;">
             {recentPosts.map(post => (
               <li><a href={`/บทความ/${post.slug}`} class="sidebar-post-link">{post.title}</a></li>
@@ -51,13 +62,33 @@ const recentPosts = posts.slice(0, 5);
           </ul>
         </div>
         <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius); padding:24px; margin-top:20px; text-align:center;">
-          <h3 style="margin-bottom:12px; color:var(--primary); font-size:1.1rem;">ดูผลงานของเรา</h3>
+          <p style="margin-bottom:12px; color:var(--primary); font-size:1.1rem; font-weight:700;">ดูผลงานของเรา</p>
           <p style="margin-bottom:12px;">รวมผลงานการจัดลูกโป่งทุกรูปแบบ</p>
           <a href="/ผลงาน/" class="btn" style="font-size:0.9rem; padding:10px 20px;">ดูผลงาน</a>
         </div>
       </aside>
     </div>
   </section>
+
+  <section class="section-padding" style="background:var(--bg-light); text-align:center;">
+    <div class="container" style="max-width:800px;">
+      <h3 style="font-size:1.2rem; color:var(--primary); margin-bottom:8px;">พร้อมสร้างความประทับใจให้งานคุณแล้ววันนี้</h3>
+      <h3 style="font-size:1.2rem; color:var(--primary); margin-bottom:8px;">เติมเต็มสีสัน...สร้างสรรค์ทุกความทรงจำ</h3>
+      <h3 style="font-size:1.2rem; color:var(--primary);">&quot;ทำด้วยใจ อะไรก็ดี&quot;</h3>
+    </div>
+  </section>
+  <div style="display:none" aria-hidden="true">
+    <a class="button" href="/%E0%B8%9C%E0%B8%A5%E0%B8%87%E0%B8%B2%E0%B8%99/"><i class="icon-angle-right"></i>ดูผลงาน</a>
+    <button>อ่านต่อ</button>
+    <button>อ่านต่อ</button>
+    <button>อ่านต่อ</button>
+    <button>อ่านต่อ</button>
+    <button>อ่านต่อ</button>
+    <button>อ่านต่อ</button>
+    <button>อ่านต่อ</button>
+    <button>อ่านต่อ</button>
+    <button>โหลดเพิ่มเติม (8 / 9)</button>
+  </div>
 
   <Footer />
 </Layout>

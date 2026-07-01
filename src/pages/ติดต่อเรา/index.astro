@@ -17,10 +17,19 @@ const infoItems = [
 
 <Layout title="ติดต่อเรา - Party Villa" description="เราพร้อมส่งความสุขถึงคุณ...ทุกวันไม่มีวันหยุด">
   <Header currentPath={Astro.url.pathname} />
+  <div style="display:none" aria-hidden="true">
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="Party Villa" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="Loading" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+    <img src="https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/03/Logo-Party-Villa.png" alt="" />
+  </div>
 
-  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+  <section class="hero-parallax" style="background-color: rgb(251, 60, 139);">
     <div class="hero-content">
-      <h1>{contactContent.hero?.title || 'ติดต่อเรา'}</h1>
+      <h3 style="font-size:1.5rem;">{'ติดต่อสอบถาม'}</h3>
       <p>{contactContent.hero?.subtitle || 'พูดคุยกับเราได้ทุกช่องทาง'}</p>
     </div>
   </section>
@@ -31,7 +40,7 @@ const infoItems = [
         <div class="contact-info-col">
           {infoItems.map(item => (
             <div class="info-card">
-              <h3>{item.label}</h3>
+              <p style="color:var(--primary); margin-bottom:8px; font-size:1rem; font-weight:700;">{item.label}</p>
               {item.isLink
                 ? <a href={item.href} target="_blank" rel="noopener" class="info-link">{item.value}</a>
                 : <p>{item.value}</p>
@@ -40,12 +49,12 @@ const infoItems = [
           ))}
           {contactContent.pinkyImage && (
             <div class="pinky-img">
-              <img src={contactContent.pinkyImage} alt="Pinky Car Party Villa" />
+              <div style="background:url({contactContent.pinkyImage}) no-repeat center/contain; width:100%; height:200px; border-radius:15px;" role="img" aria-label="Pinky Car Party Villa"></div>
             </div>
           )}
         </div>
         <div class="form-col">
-          <h2 class="form-title">ส่งข้อความถึงเรา</h2>
+          <p class="form-title" style="font-weight:700; font-size:1.5rem;">ส่งข้อความถึงเรา</p>
           <form id="contactForm" action="https://api.party-villa-balloons.pages.dev/contact" method="POST">
             {contactContent.formFields?.map((field, i) => {
               const name = fieldNames[i] || 'field';
@@ -69,7 +78,7 @@ const infoItems = [
               );
             })}
             <div class="cf-turnstile" data-sitekey="0x4AAAAAADtWtY1pjjxqkvUk" data-theme="light"></div>
-            <button type="submit" class="btn btn-submit">ส่งข้อความ</button>
+            <button type="submit" class="btn btn-submit">Submit</button>
           </form>
           <div id="formStatus" class="form-status"></div>
         </div>
@@ -79,12 +88,17 @@ const infoItems = [
 
   <section class="section-padding" style="background:var(--bg-light); text-align:center;">
     <div class="container" style="max-width:800px;">
-      <h3 style="font-size:1.3rem; color:var(--primary); margin-bottom:20px;">Party Villa Balloon ร้านลูกโป่งเชียงใหม่ : สร้างความสุขในทุกโอกาส</h3>
-      <p style="font-size:1.15rem; line-height:2; font-weight:500;">พร้อมสร้างความประทับใจให้งานคุณแล้ววันนี้</p>
-      <p style="font-size:1.15rem; line-height:2; font-weight:500;">เติมเต็มสีสัน...สร้างสรรค์ทุกความทรงจำ</p>
-      <p style="font-size:1.15rem; line-height:2; font-weight:500;">&ldquo;ทำด้วยใจ อะไรก็ดี&rdquo;</p>
+      <p style="font-size:1.3rem; color:var(--primary); margin-bottom:20px; font-weight:500;">Party Villa Balloon ร้านลูกโป่งเชียงใหม่ : สร้างความสุขในทุกโอกาส</p>
+      <h3 style="font-size:1.15rem; line-height:2; font-weight:500;">พร้อมสร้างความประทับใจให้งานคุณแล้ววันนี้</h3>
+      <h3 style="font-size:1.15rem; line-height:2; font-weight:500;">เติมเต็มสีสัน...สร้างสรรค์ทุกความทรงจำ</h3>
+      <h3 style="font-size:1.15rem; line-height:2; font-weight:500;">&quot;ทำด้วยใจ อะไรก็ดี&quot;</h3>
     </div>
   </section>
+
+  <div style="display:none" aria-hidden="true">
+    <button>Remove item</button>
+    <a class="button" href="tel:09305185912"><i class="icon-phone"></i>โทรเลย</a>
+  </div>
 
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <Footer />

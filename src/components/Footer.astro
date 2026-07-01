@@ -3,7 +3,6 @@ import siteSettings from '../data/site-settings.json';
 
 const links = siteSettings?.socialLinks || [];
 const facebook = links.find((l: string) => l.includes('facebook.com')) || '';
-const instagram = links.find((l: string) => l.includes('instagram.com')) || '';
 const tiktok = links.find((l: string) => l.includes('tiktok.com')) || '';
 const line = links.find((l: string) => l.includes('line.me')) || '';
 const logoUrl = siteSettings?.logo || '/images/logo.png';
@@ -14,39 +13,23 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col">
-        <img src={logoUrl} alt="Party Villa Balloons" height="45" class="footer-logo" />
+        <div class="footer-logo" style="background:url({logoUrl}) no-repeat center/contain; height:45px; width:180px;" role="img" aria-label="Party Villa"></div>
         <p>บริการจัดลูกโป่งเชียงใหม่ รับจัดลูกโป่งทุกโอกาส ครบวงจร ตั้งแต่จัดสถานที่ จนถึงบริการส่งถึงที่</p>
       </div>
 
       <div class="footer-col">
-        <h4>ช่องทางติดต่อ</h4>
+        <p class="footer-heading">ช่องทางติดต่อ</p>
         <ul>
-          <li>โทร: <a href="tel:0930518591">093-0518591</a></li>
+          <li>โทร: <a href="tel:09305185912">093 0518 5912</a></li>
           <li>LINE: <a href={line}>@partyvilla</a></li>
-          <li>Facebook: <a href={facebook} target="_blank">Party Villa Balloons</a></li>
+          <li>Facebook: <a href={facebook} target="_blank">Party villa balloons chiangmai ร้านลูกโป่ง เชียงใหม่</a></li>
           <li>TikTok: <a href={tiktok} target="_blank">@partyvillaballoon</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
-        <h4>บริการของเรา</h4>
-        <ul>
-          <li><a href="/บริการ/">จัดลูกโป่งมาตรฐาน</a></li>
-          <li><a href="/บริการ/">SnapBloom ลูกโป่งเอฟเฟกต์</a></li>
-          <li><a href="/บริการ/">บริการส่งและติดตั้ง</a></li>
-          <li><a href="/ผลงาน/">ดูผลงานทั้งหมด</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>พื้นที่ให้บริการ</h4>
+        <p class="footer-heading">พื้นที่ให้บริการ</p>
         <p>เชียงใหม่และจังหวัดใกล้เคียง</p>
-        <div class="footer-social">
-          <a href={facebook} target="_blank" class="social-btn" aria-label="Facebook">FB</a>
-          <a href={instagram} target="_blank" class="social-btn" aria-label="Instagram">IG</a>
-          <a href={tiktok} target="_blank" class="social-btn" aria-label="TikTok">TT</a>
-          <a href={line} target="_blank" class="social-btn" aria-label="LINE">LINE</a>
-        </div>
       </div>
     </div>
   </div>
@@ -76,6 +59,12 @@ const year = new Date().getFullYear();
     grid-template-columns: repeat(4, 1fr);
     gap: 40px;
     padding-bottom: 40px;
+  }
+  .footer-heading {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    font-weight: 700;
   }
   .footer-col h4 {
     color: #fff;
