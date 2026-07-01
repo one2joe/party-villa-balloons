@@ -27,7 +27,6 @@ const ownerDesc = 'อุ้ม ดูแลงานเองทุกขั้
 
   <!-- Hero -->
   <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
-    <div class="hero-overlay"></div>
     <div class="hero-content">
       {ownerTagline && <p class="owner-name">{ownerTagline}</p>}
       <h1>{heroTitle}</h1>
@@ -131,11 +130,6 @@ const ownerDesc = 'อุ้ม ดูแลงานเองทุกขั้
 </Layout>
 
 <style>
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-  }
   .owner-name {
     font-size: 1.1rem;
     margin-bottom: 8px;
