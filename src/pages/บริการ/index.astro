@@ -43,16 +43,70 @@ const pricingUrl = servicesContent?.pricingUrl || '';
     </div>
   </section>
 
+  <section class="section-padding" style="background:var(--bg-light);">
+    <div class="container" style="max-width:900px;">
+      <h2 class="section-title">เราแก้ปัญหาอะไรให้ลูกค้า</h2>
+      <p class="section-subtitle">เราช่วยลูกค้าทุกขั้นตอน ตั้งแต่เริ่มต้นจนถึงวันงาน</p>
+      <div class="problems-grid">
+        {servicesContent.problems.map(p => (
+          <div class="problem-card">
+            <div class="problem-step">{p.step}</div>
+            <h3 class="problem-title">{p.title}</h3>
+            <p class="problem-solution">{p.solution}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container" style="max-width:1000px;">
+      <h2 class="section-title">พร้อมบริการจัดแต่งลูกโป่งตามธีมงานต่าง ๆ</h2>
+      <p class="section-subtitle">ทุกชิ้นงานออกแบบด้วยความพิถีพิถัน ตอบโจทย์ตามงบประมาณ และสามารถปรับแต่งให้เข้ากับธีมของคุณได้</p>
+      <div class="themes-grid">
+        {servicesContent.themes.map(theme => (
+          <div class="theme-card">
+            <div class="theme-icon">{theme.icon}</div>
+            <h3 class="theme-title">{theme.title}</h3>
+            <p class="theme-subtitle">{theme.subtitle}</p>
+            <p class="theme-desc">{theme.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-padding" style="background:var(--bg-light); text-align:center;">
+    <div class="container" style="max-width:800px;">
+      <h3 style="font-size:1.3rem; color:var(--primary); margin-bottom:20px;">{servicesContent.tagline}</h3>
+      {servicesContent.taglines.map(t => (
+        <p style="font-size:1.15rem; line-height:2; font-weight:500;">{t}</p>
+      ))}
+    </div>
+  </section>
+
   <Footer />
 </Layout>
 
 <style>
   .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .service-card { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px 30px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
-  .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .service-card { background: rgba(237, 172, 36, 0.04); border-radius: 15px; padding: 40px 30px; text-align: center; transition: background 0.3s; }
+  .service-card:hover { background: rgba(237, 172, 36, 0.08); }
   .service-icon { font-size: 3rem; margin-bottom: 16px; }
-  .service-title { font-size: 1.3rem; color: var(--text-color); margin-bottom: 12px; }
+  .service-title { font-size: 1.2rem; color: var(--text-color); margin-bottom: 12px; }
   .service-desc { color: #666; line-height: 1.8; margin-bottom: 16px; font-size: 0.95rem; }
   .service-features { text-align: left; list-style: disc; padding-left: 20px; line-height: 2; color: #555; font-size: 0.9rem; }
-  @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+  .problems-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 30px; }
+  .problem-card { background: rgba(237, 172, 36, 0.04); border-radius: 15px; padding: 30px; text-align: center; }
+  .problem-step { display: inline-block; background: var(--primary); color: #fff; padding: 4px 14px; border-radius: 50px; font-size: 0.85rem; font-weight: 700; margin-bottom: 12px; }
+  .problem-title { font-size: 1rem; margin-bottom: 10px; color: var(--text-color); }
+  .problem-solution { font-size: 0.9rem; line-height: 1.7; color: #666; }
+  .themes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 30px; }
+  .theme-card { background: rgba(237, 172, 36, 0.04); border-radius: 15px; padding: 30px; text-align: center; transition: background 0.3s; }
+  .theme-card:hover { background: rgba(237, 172, 36, 0.08); }
+  .theme-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .theme-title { font-size: 1rem; color: var(--text-color); margin-bottom: 4px; }
+  .theme-subtitle { font-size: 0.85rem; color: #999; margin-bottom: 10px; font-style: italic; }
+  .theme-desc { font-size: 0.9rem; line-height: 1.7; color: #666; }
+  @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } .problems-grid { grid-template-columns: 1fr; } .themes-grid { grid-template-columns: 1fr; } }
 </style>

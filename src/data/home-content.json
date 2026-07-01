@@ -55,18 +55,26 @@
     "image": "https://xn--12cmal7ftbft4d7etb1fxav2ej.com/wp-content/uploads/2025/06/รถ-pinky-ลูกโป่งเชียงใหม่-1.webp",
     "description": "รถ Pinky สุดคิ้วท์บริการถึงที่ พร้อมลูกโป่งสวยๆ ส่งตรงถึงงานคุณ"
   },
-  "tiktokEmbeds": [
+  "homeServices": [
     {
-      "videoId": "7386905948276788481",
-      "url": "https://www.tiktok.com/@partyvillaballoon/video/7386905948276788481"
+      "title": "ซุ้ม และเสาลูกโป่ง",
+      "description": "เพิ่มสีสันให้กับงานเปิดตัว งานอีเวนต์ และโอกาสพิเศษต่าง ๆ",
+      "icon": "🏛️"
     },
     {
-      "videoId": "7494580703053597960",
-      "url": "https://www.tiktok.com/@partyvillaballoon/video/7494580703053597960"
+      "title": "ลูกโป่งฮีเลียม",
+      "description": "ปลอดภัย 100% ไม่ติดไฟ ลอยได้นาน สร้างบรรยากาศสุดโรแมนติกและสนุกสนาน",
+      "icon": "🎈"
     },
     {
-      "videoId": "7481119032293313800",
-      "url": "https://www.tiktok.com/@partyvillaballoon/video/7481119032293313800"
+      "title": "แบคดรอปลูกโป่ง",
+      "description": "มุมถ่ายภาพสวย ๆ ที่ช่วยให้งานของคุณดูโดดเด่น และน่าประทับใจ",
+      "icon": "📸"
+    },
+    {
+      "title": "ลูกโป่งเอฟเฟกต์",
+      "description": "สร้างโมเมนต์สุดว้าวในงานแต่งงาน งานเปิดตัว และปาร์ตี้ต่าง ๆ",
+      "icon": "✨"
     }
   ]
 }

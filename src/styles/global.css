@@ -17,7 +17,7 @@
   --shadow-md: 0 4px 14px rgba(0,0,0,0.12);
   --shadow-lg: 0 10px 40px rgba(0,0,0,0.15);
   --radius: 8px;
-  --max-width: 1200px;
+  --max-width: 1080px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,7 +36,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 .hero-parallax {
   position: relative;
-  min-height: 60vh;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,29 +59,30 @@ img { max-width: 100%; height: auto; display: block; }
   color: #fff;
   padding: 40px 20px;
 }
-.hero-content h1 { font-size: 3rem; margin-bottom: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-.hero-content p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 24px; opacity: 0.9; }
+.hero-content h1 { font-size: 2.5rem; margin-bottom: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+.hero-content p { font-size: 1.1rem; max-width: 700px; margin: 0 auto 24px; opacity: 0.9; }
 
 .btn {
   display: inline-block;
-  padding: 14px 32px;
+  padding: 12px 28px;
   background: var(--primary);
   color: #fff;
-  border-radius: 40px;
+  border-radius: 999px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   transition: all 0.3s;
   border: none;
   cursor: pointer;
   font-family: var(--font-main);
+  text-transform: none;
 }
-.btn:hover { background: var(--primary-hover); transform: translateY(-2px); }
+.btn:hover { background: var(--primary-hover); opacity: 0.9; }
 .btn-outline { background: transparent; border: 2px solid #fff; color: #fff; }
 .btn-outline:hover { background: #fff; color: var(--primary); }
 
-.section-padding { padding: 80px 0; }
-.section-title { font-size: 2rem; text-align: center; margin-bottom: 12px; color: var(--text-color); }
-.section-subtitle { text-align: center; color: #777; margin-bottom: 40px; font-size: 1.1rem; }
+.section-padding { padding: 60px 0; }
+.section-title { font-size: 1.6rem; text-align: center; margin-bottom: 12px; color: #000; }
+.section-subtitle { text-align: center; color: #777; margin-bottom: 30px; font-size: 1rem; line-height: 1.6; max-width: 800px; margin-left: auto; margin-right: auto; }
 
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
