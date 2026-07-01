@@ -15,7 +15,7 @@ const { post } = Astro.props;
 const recentPosts = posts.filter(p => p.slug !== post.slug).slice(0, 3);
 ---
 
-<Layout title={`${post.title} | Party Villa Balloons`}>
+<Layout title={`${post.title} - Party Villa`}>
   <Header currentPath={Astro.url.pathname} />
 
   <section class="section-padding">

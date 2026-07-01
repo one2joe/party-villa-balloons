@@ -12,7 +12,7 @@ export default defineConfig({
   ],
   snapshotPathTemplate: '{testDir}/../baseline/screenshots/{testFilePath}/{projectName}/{arg}{ext}',
   use: {
-    baseURL: 'https://party-villa-balloons.pages.dev',
+    baseURL: 'http://localhost:4321',
     actionTimeout: 15000,
     navigationTimeout: 30000,
   },

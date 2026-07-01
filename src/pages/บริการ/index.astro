@@ -7,9 +7,11 @@ import servicesContent from '../../data/services-content.json';
 
 const heroBg = servicesContent.hero?.background || '/images/services-hero.jpg';
 const pricingUrl = servicesContent?.pricingUrl || '';
+const pageTitle = 'บริการ - Party Villa';
+const pageDesc = 'ออกแบบไม่ซ้ำใคร ใช้ลูกโป่งเกรดพรีเมียม ผสานเทคนิคการจัดวางสมัยใหม่';
 ---
 
-<Layout title="บริการ | Party Villa Balloons">
+<Layout title={pageTitle} description={pageDesc}>
   <Header currentPath={Astro.url.pathname} />
 
   <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>

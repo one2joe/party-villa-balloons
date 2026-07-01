@@ -7,7 +7,7 @@ import posts from '../../data/blog-posts.json';
 const recentPosts = posts.slice(0, 5);
 ---
 
-<Layout title="บทความ | Party Villa Balloons">
+<Layout title="บทความ - Party Villa" description="บทความ นานาสาระน่ารู้เกี่ยวกับลูกโป่ง บริการ ตกแต่งลูกโป่งสุดพิเศษสำหรับทุกโอกาส">
   <Header currentPath={Astro.url.pathname} />
 
   <section class="hero-parallax" style="background-image: url('/images/blog-hero.jpg');">
@@ -20,6 +20,7 @@ const recentPosts = posts.slice(0, 5);
   <section class="section-padding">
     <div class="container" style="display:flex; gap:30px; align-items:flex-start;">
       <main style="flex:1; min-width:0;">
+        <h2 style="font-size:1.5rem; margin-bottom:24px; color:var(--primary); border-bottom:2px solid var(--primary); padding-bottom:8px;">นานาสาระน่ารู้เกี่ยวกับลูกโป่ง</h2>
         <div style="display:flex; flex-direction:column; gap:24px;">
           {posts.map(post => {
             const excerpt = post.excerpt || post.bodyParts?.find(p => p.type === 'paragraph')?.text?.substring(0, 150) || '';
