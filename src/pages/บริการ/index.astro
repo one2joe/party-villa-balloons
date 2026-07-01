@@ -6,12 +6,7 @@ import services from '../../data/services.json';
 import servicesContent from '../../data/services-content.json';
 
 const heroBg = servicesContent.hero?.background || '/images/services-hero.jpg';
-const ctaText = servicesContent.ctaText || 'ดูราคาและแพ็กเกจทั้งหมด';
-const pricingUrl = servicesContent.pricingUrl || '#';
-
-const ctaTitle = 'รองรับทุกรูปแบบงาน';
-const ctaSubtitle = ctaText;
-const ctaLabel = 'ดูราคาและแพ็กเกจ';
+const pricingUrl = servicesContent?.pricingUrl || '';
 ---
 
 <Layout title="บริการ | Party Villa Balloons">
@@ -20,38 +15,44 @@ const ctaLabel = 'ดูราคาและแพ็กเกจ';
   <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
     <div class="hero-content">
       <h1>บริการของเรา</h1>
-      <p>บริการจัดลูกโป่งครบวงจร</p>
+      <p>ออกแบบไม่ซ้ำใคร ใช้ลูกโป่งเกรดพรีเมียม ผสานเทคนิคการจัดวางสมัยใหม่</p>
     </div>
   </section>
 
   <section class="section-padding">
     <div class="container">
-      <div class="grid-3">
+      <div class="services-grid">
         {services.map(s => (
-          <div class="service-card" style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius); padding:40px 30px; text-align:center; transition:all 0.3s;">
-            <div style="font-size:2.5rem; margin-bottom:16px;">{s.icon}</div>
-            <h3 style="color:var(--primary); margin-bottom:12px;">{s.title}</h3>
-            <p style="margin-bottom:16px; color:#666;">{s.description}</p>
-            {s.features && s.features.length > 0 && (
-              <ul style="display:flex; flex-direction:column; gap:6px; text-align:left; padding-left:20px;">
-                {s.features.map(f => (
-                  <li style="list-style:disc;">{f}</li>
-                ))}
-              </ul>
-            )}
+          <div class="service-card">
+            <div class="service-icon">{s.icon}</div>
+            <h2 class="service-title">{s.title}</h2>
+            <p class="service-desc">{s.description}</p>
+            <ul class="service-features">
+              {s.features.map(f => (
+                <li>{f}</li>
+              ))}
+            </ul>
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="section-padding" style="background:var(--bg-light); text-align:center;">
-    <div class="container">
-      <h2 class="section-title">{ctaTitle}</h2>
-      <p class="section-subtitle">{ctaSubtitle}</p>
-      <a href={pricingUrl} target="_blank" class="btn">{ctaLabel}</a>
+      {pricingUrl && (
+        <div style="text-align:center; margin-top:40px;">
+          <a href={pricingUrl} target="_blank" class="btn">ดูราคาแพ็กเกจ</a>
+        </div>
+      )}
     </div>
   </section>
 
   <Footer />
 </Layout>
+
+<style>
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .service-card { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px 30px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; }
+  .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .service-icon { font-size: 3rem; margin-bottom: 16px; }
+  .service-title { font-size: 1.3rem; color: var(--text-color); margin-bottom: 12px; }
+  .service-desc { color: #666; line-height: 1.8; margin-bottom: 16px; font-size: 0.95rem; }
+  .service-features { text-align: left; list-style: disc; padding-left: 20px; line-height: 2; color: #555; font-size: 0.9rem; }
+  @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+</style>

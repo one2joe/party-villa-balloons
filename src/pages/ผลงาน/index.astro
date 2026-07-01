@@ -1,0 +1,79 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import gallery from '../../data/gallery.json';
+import portfolioContent from '../../data/portfolio-content.json';
+
+const heroBg = portfolioContent?.hero?.background || '/images/portfolio-hero.jpg';
+const googlePhotosUrl = portfolioContent?.hero?.ctaUrl || '';
+---
+
+<Layout title={'\u0E1C\u0E25\u0E07\u0E32\u0E19 | Party Villa Balloons'}>
+  <Header currentPath={Astro.url.pathname} />
+
+  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-content">
+      <h1>{'\u0E1C\u0E25\u0E07\u0E32\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32'}</h1>
+      <p>{'\u0E23\u0E27\u0E21\u0E1C\u0E25\u0E07\u0E32\u0E19\u0E01\u0E32\u0E23\u0E08\u0E31\u0E14\u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07\u0E17\u0E38\u0E01\u0E23\u0E39\u0E1B\u0E41\u0E1A\u0E1A'}</p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container gallery-layout">
+      <aside class="gallery-sidebar">
+        <h3 style="margin-bottom:16px; color:var(--primary);">{'\u0E2B\u0E21\u0E27\u0E14\u0E2B\u0E21\u0E39\u0E48'}</h3>
+        <nav>
+          <ul style="display:flex; flex-direction:column; gap:4px;">
+            {gallery.map((cat, i) => (
+              <li><a href={`#cat-${i}`} class="sidebar-link">{cat.category}</a></li>
+            ))}
+          </ul>
+        </nav>
+        {googlePhotosUrl && (
+          <div class="sidebar-cta">
+            <p style="margin-bottom:12px; font-weight:500;">{'\u0E14\u0E39\u0E1C\u0E25\u0E07\u0E32\u0E19\u0E17\u0E31\u0E49\u0E07\u0E2B\u0E21\u0E14'}</p>
+            <a href={googlePhotosUrl} target="_blank" class="btn" style="font-size:0.9rem; padding:10px 20px;">Google Photos</a>
+          </div>
+        )}
+        <div class="sidebar-cta" style="margin-top:12px;">
+          <p style="margin-bottom:12px; font-weight:500;">{'\u0E2A\u0E19\u0E43\u0E08\u0E08\u0E31\u0E14\u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07?'}</p>
+          <a href="/\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E40\u0E23\u0E32/" class="btn" style="font-size:0.9rem; padding:10px 20px;">{'\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D\u0E40\u0E23\u0E32'}</a>
+        </div>
+      </aside>
+
+      <div class="gallery-main">
+        {gallery.filter(cat => cat.images?.length > 0).map((cat, i) => (
+          <div id={`cat-${i}`} class="gallery-section">
+            <h2 class="gallery-section-title">{cat.category}</h2>
+            <div class="gallery-grid">
+              {cat.images.map(img => (
+                <a href={img.src} target="_blank" rel="noopener noreferrer" class="gallery-item">
+                  <img src={img.src} alt={img.alt} loading="lazy" class="gallery-img" />
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .gallery-layout { display: flex; gap: 30px; align-items: flex-start; }
+  .gallery-sidebar { width: 260px; flex-shrink: 0; position: sticky; top: 100px; background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; }
+  .sidebar-link { display: block; padding: 10px 14px; border-radius: 6px; font-size: 0.95rem; transition: background 0.3s, color 0.3s; }
+  .sidebar-link:hover { background: var(--bg-light); color: var(--primary); }
+  .sidebar-cta { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color); text-align: center; }
+  .gallery-main { flex: 1; min-width: 0; }
+  .gallery-section { margin-bottom: 50px; }
+  .gallery-section-title { font-size: 1.5rem; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid var(--primary); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .gallery-item { border-radius: 6px; overflow: hidden; aspect-ratio: 1; display: block; cursor: pointer; }
+  .gallery-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+  .gallery-img:hover { transform: scale(1.08); }
+  @media (max-width: 768px) { .gallery-layout { flex-direction: column; } .gallery-sidebar { width: 100%; position: static; } .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>

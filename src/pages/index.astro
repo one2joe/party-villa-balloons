@@ -4,18 +4,26 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import faq from '../data/faq.json';
 import homeContent from '../data/home-content.json';
+import aboutContent from '../data/about-content.json';
+import services from '../data/services.json';
 
-const galleryImages = homeContent.galleryImages || [];
 const tiktokEmbeds = homeContent.tiktokEmbeds || [];
 const heroBg = homeContent.hero?.background || '/images/hero-bg.jpg';
 const heroTitle = homeContent.hero?.title || 'Party Villa Balloons';
 const heroSubtitle = homeContent.hero?.subtitle || 'บริการจัดลูกโป่งครบวงจรในเชียงใหม่';
 const ownerTagline = homeContent.hero?.ownerTagline || '';
+const heroCtaText = homeContent.hero?.ctaText || 'ดูผลงานของเรา';
+const heroCtaUrl = homeContent.hero?.ctaUrl || '/portfolio';
 const pinkyImage = homeContent.pinky?.image || '/images/pinky-car.jpg';
 const pinkyDesc = homeContent.pinky?.description || 'รถ Pinky สุดคิ้วท์บริการถึงที่ พร้อมลูกโป่งสวยๆ ส่งตรงถึงงานคุณ';
-const intro = homeContent.intro || '';
+const strengthsContent = aboutContent.sections?.[2]?.content || '';
 const siteUrl = 'https://party-villa-balloons.pages.dev';
 const shareText = 'Party%20Villa%20Balloons';
+const ownerName = homeContent.hero?.ownerName || 'อุ้ม';
+const welcomeEmoji = '🎈✨';
+const welcomeText = 'ยินดีต้อนรับสู่ "ปาร์ตี้ วิลล่า บอลลูน" ' + '🎉🎊';
+const welcomeDesc = 'คุณกำลังมองหาการตกแต่งงานปาร์ตี้ที่สวยงามและน่าประทับใจใช่ไหม? Party Villa Balloons คือคำตอบสำหรับทุกงานของคุณ';
+const ownerDesc = 'อุ้ม ดูแลงานเองทุกขั้นตอน โดยมุ่งมั่นให้แบรนด์เป็นที่หนึ่งในใจลูกค้าเมื่อพูดถึง ลูกโป่งเชียงใหม่';
 ---
 
 <Layout title="Party Villa Balloons | รับจัดลูกโป่งเชียงใหม่ ครบวงจร">
@@ -23,70 +31,87 @@ const shareText = 'Party%20Villa%20Balloons';
 
   <!-- Hero -->
   <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-overlay"></div>
     <div class="hero-content">
       {ownerTagline && <p class="owner-name">{ownerTagline}</p>}
       <h1>{heroTitle}</h1>
       <p>{heroSubtitle}</p>
       <div class="hero-actions">
-        <a href="/portfolio" class="btn btn-outline">ดูผลงานของเรา</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=${siteUrl}" target="_blank" class="btn" style="background:#1877F2;">แชร์ Facebook</a>
+        <a href={heroCtaUrl} target="_blank" class="btn btn-outline">{heroCtaText}</a>
       </div>
     </div>
   </section>
 
-  <!-- Welcome + Social Share -->
+  <!-- Welcome -->
   <section class="section-padding" style="text-align:center;">
-    <div class="container">
-      <p style="font-size:1.2rem; max-width:800px; margin:0 auto; line-height:2;">{intro}</p>
-      <div class="social-share-bar">
-        <span class="share-label">แชร์ให้เพื่อน:</span>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=${siteUrl}" target="_blank" class="share-btn" style="background:#1877F2;" aria-label="Facebook">FB</a>
-        <a href="https://line.me/R/msg/text/?${shareText}%20${siteUrl}" target="_blank" class="share-btn" style="background:#00B900;" aria-label="LINE">LINE</a>
-        <a href="https://twitter.com/intent/tweet?text=${shareText}&url=${siteUrl}" target="_blank" class="share-btn" style="background:#000;" aria-label="X (Twitter)">X</a>
-        <a href="https://api.whatsapp.com/send?text=${shareText}%20${siteUrl}" target="_blank" class="share-btn" style="background:#25D366;" aria-label="WhatsApp">WA</a>
-        <a href="https://pinterest.com/pin/create/button/?url=${siteUrl}&description=${shareText}" target="_blank" class="share-btn" style="background:#E60023;" aria-label="Pinterest">PIN</a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${siteUrl}" target="_blank" class="share-btn" style="background:#0A66C2;" aria-label="LinkedIn">IN</a>
-        <a href="mailto:?subject=Party%20Villa%20Balloons&body=${siteUrl}" target="_blank" class="share-btn" style="background:#666;" aria-label="Email">@</a>
-      </div>
+    <div class="container" style="max-width:900px;">
+      <p style="font-size:1.2rem; font-weight:600; color:var(--primary);">{welcomeEmoji} {welcomeText}</p>
+      <p style="font-size:1.1rem; margin-top:16px; line-height:1.8;">{welcomeDesc}</p>
+      <p style="margin-top:12px; line-height:1.8; color:#666;">{ownerDesc}</p>
     </div>
   </section>
 
-  <!-- Gallery Carousel -->
+  <!-- Services -->
   <section class="section-padding" style="background:var(--bg-light);">
     <div class="container">
-      <h2 class="section-title">ผลงานของเรา</h2>
-      <p class="section-subtitle">ภาพตัวอย่างการจัดลูกโป่งในโอกาสต่างๆ</p>
-      <div class="swiper gallerySwiper">
-        <div class="swiper-wrapper">
-          {galleryImages.map(img => (
-            <div class="swiper-slide">
-              <div class="slide-img-wrap">
-                <img src={img.src} alt={img.alt} loading="lazy" />
-              </div>
-            </div>
-          ))}
-        </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
+      <h2 class="section-title">บริการของเรา</h2>
+      <p class="section-subtitle">บริการจัดลูกโป่งครบวงจร จาก Party Villa</p>
+      <div class="service-cards">
+        {services.map(s => (
+          <div class="service-card">
+            <div class="service-icon">{s.icon}</div>
+            <h3 class="service-title">{s.title}</h3>
+            <p class="service-desc">{s.description}</p>
+            <ul class="service-features">
+              {s.features.map(f => (
+                <li>{f}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div style="text-align:center; margin-top:30px;">
+        <a href="/บริการ/" class="btn">ดูบริการเพิ่มเติม</a>
       </div>
     </div>
   </section>
 
-  <!-- Pinky -->
-  <section class="section-padding" style="text-align:center;">
-    <div class="container">
+  <!-- Pinky + Strengths -->
+  <section class="section-padding">
+    <div class="container" style="max-width:900px;">
       <h2 class="section-title">จุดเด่นของเรา</h2>
-      <p class="section-subtitle">น้องพิ้งกี้ รถบริการลูกโป่งเชียงใหม่</p>
+      <p class="section-subtitle">เรามีบริการจัดส่งลูกโป่งให้ถึงที่ โดยมีรถ "Pinky" เจ้าแรกและเจ้าเดียวในเชียงใหม่</p>
       <div style="max-width:600px; margin:0 auto;">
         <img src={pinkyImage} alt="Pinky car" style="border-radius:var(--radius); box-shadow:var(--shadow-md); width:100%;" />
       </div>
-      {pinkyDesc && <p style="margin-top:24px; max-width:700px; margin-inline:auto;">{pinkyDesc}</p>}
+      {pinkyDesc && <p style="margin-top:24px; max-width:700px; margin-inline:auto; line-height:1.8;">{pinkyDesc}</p>}
+      <div class="strengths-content" set:html={strengthsContent}></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section-padding" style="background:var(--bg-light);">
+    <div class="container" style="max-width:800px;">
+      <h2 class="section-title">คำถามที่พบบ่อย (FAQ)</h2>
+      <p class="section-subtitle">คำถามที่ลูกค้ามักสอบถาม</p>
+      <div class="faq-list">
+        {faq.map((item, i) => (
+          <div class="faq-item">
+            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+              <span>{item.question}</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-answer">
+              <p set:html={item.answer}></p>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 
   <!-- TikTok -->
-  <section class="section-padding" style="background:var(--bg-light);">
+  <section class="section-padding" style="text-align:center;">
     <div class="container">
       <h2 class="section-title">ติดตามเราบน TikTok</h2>
       <p class="section-subtitle">@partyvillaballoon</p>
@@ -104,32 +129,11 @@ const shareText = 'Party%20Villa%20Balloons';
     <script async src="https://www.tiktok.com/embed.js"></script>
   </section>
 
-  <!-- FAQ -->
-  <section class="section-padding">
-    <div class="container" style="max-width:800px;">
-      <h2 class="section-title">คำถามที่พบบ่อย</h2>
-      <p class="section-subtitle">FAQ</p>
-      <div class="faq-list">
-        {faq.map((item, i) => (
-          <div class="faq-item">
-            <button class="faq-question" onclick="this.parentElement.classList.toggle('open')">
-              <span>{item.question}</span>
-              <span class="faq-icon">+</span>
-            </button>
-            <div class="faq-answer">
-              <p set:html={item.answer}></p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- CTA -->
   <section class="section-padding" style="background:var(--primary); color:#fff; text-align:center;">
     <div class="container">
-      <h2 style="font-size:1.8rem; margin-bottom:16px;">มีคำถามเกี่ยวกับการจัดลูกโป่ง?</h2>
-      <p style="font-size:1.1rem; margin-bottom:24px;">อุ้มตอบเองทุกข้อความ</p>
+      <h2 style="font-size:1.8rem; margin-bottom:16px;">มีคำถาม หรืออยากปรึกษาออกแบบลูกโป่ง</h2>
+      <p style="font-size:1.1rem; margin-bottom:24px;">ส่งรูปงาน หรือแนวคิดมาได้เลย เราจะช่วยออกแบบให้สวยที่สุด อุ้มตอบเองทุกข้อความ</p>
       <a href="https://line.me/R/ti/p/@partyvilla" target="_blank" class="btn" style="background:#fff; color:var(--primary);">พูดคุยกับเรา</a>
     </div>
   </section>
@@ -137,9 +141,12 @@ const shareText = 'Party%20Villa%20Balloons';
   <Footer />
 </Layout>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
 <style>
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+  }
   .owner-name {
     font-size: 1.1rem;
     margin-bottom: 8px;
@@ -157,71 +164,126 @@ const shareText = 'Party%20Villa%20Balloons';
     flex-wrap: wrap;
     margin-top: 20px;
   }
-  .social-share-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 24px;
-    flex-wrap: wrap;
+  .service-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 30px;
   }
-  .share-label {
-    font-weight: 700;
-    color: #666;
-    margin-right: 4px;
-  }
-  .share-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    transition: transform 0.2s, opacity 0.2s;
-  }
-  .share-btn:hover {
-    transform: scale(1.1);
-    opacity: 0.9;
-  }
-  .swiper {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    padding-bottom: 50px;
-  }
-  .slide-img-wrap {
-    aspect-ratio: 4/3;
-    overflow: hidden;
+  .service-card {
+    background: #fff;
+    border: 1px solid var(--border-color);
     border-radius: var(--radius);
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
     box-shadow: var(--shadow-md);
   }
-  .slide-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
   }
-  .swiper-pagination-bullet-active {
-    background: var(--primary) !important;
+  .service-title {
+    font-size: 1.15rem;
+    color: var(--primary);
+    margin-bottom: 10px;
   }
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: var(--primary) !important;
+  .service-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+  .service-features {
+    text-align: left;
+    list-style: disc;
+    padding-left: 18px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #555;
+  }
+  .strengths-content {
+    line-height: 2;
+    font-size: 1.05rem;
+    margin-top: 30px;
+  }
+  .strengths-content :global(ol),
+  .strengths-content :global(ul) {
+    padding-left: 24px;
+    margin: 12px 0;
+  }
+  .strengths-content :global(li) {
+    margin-bottom: 8px;
+  }
+  .strengths-content :global(strong) {
+    color: var(--primary);
   }
   .tiktok-embed-grid {
     display: flex;
     gap: 16px;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 24px;
   }
   .tiktok-embed-grid .tiktok-embed {
     min-width: 325px;
     max-width: 400px;
     flex: 1;
   }
+  .faq-list {
+    margin-top: 24px;
+  }
+  .faq-item {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .faq-question {
+    width: 100%;
+    padding: 16px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: left;
+    color: var(--text-color);
+  }
+  .faq-icon {
+    font-size: 1.4rem;
+    color: var(--primary);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 20px;
+  }
+  .faq-item.open .faq-answer {
+    max-height: 500px;
+    padding: 0 20px 16px;
+  }
+  .faq-answer p {
+    line-height: 1.8;
+    color: #555;
+  }
   @media (max-width: 768px) {
+    .service-cards {
+      grid-template-columns: 1fr;
+    }
     .tiktok-embed-grid {
       flex-direction: column;
       align-items: center;
@@ -231,39 +293,5 @@ const shareText = 'Party%20Villa%20Balloons';
       width: 100%;
       max-width: 400px;
     }
-    .social-share-bar {
-      gap: 6px;
-    }
-    .share-btn {
-      width: 38px;
-      height: 38px;
-      font-size: 0.7rem;
-    }
   }
 </style>
-
-<script>
-  import Swiper from 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs';
-
-  new Swiper('.gallerySwiper', {
-    slidesPerView: 1,
-    spaceBetween: 16,
-    loop: true,
-    autoplay: {
-      delay: 4000,
-      disableOnInteraction: false,
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    breakpoints: {
-      640: { slidesPerView: 2 },
-      1024: { slidesPerView: 3 },
-    },
-  });
-</script>

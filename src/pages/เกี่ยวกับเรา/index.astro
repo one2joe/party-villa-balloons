@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import aboutContent from '../../data/about-content.json';
+
+const heroBg = aboutContent.hero?.background || '/images/about-hero.jpg';
+const ownerImages = aboutContent.images || [];
+const sections = aboutContent.sections || [];
+const storySection = sections[1] || null;
+const strengthsSection = sections[2] || null;
+const missionSection = sections[4] || null;
+const tagline = aboutContent.sections?.[3] || null;
+const ownerPhoto = ownerImages.find(i => i.alt.includes('\u0E2D\u0E38\u0E49\u0E21')) || ownerImages[1] || null;
+const teamImages = ownerImages.filter(i => i.alt.includes('\u0E17\u0E35\u0E21\u0E07\u0E32\u0E19')) || [];
+const logoImage = ownerImages.find(i => i.alt.includes('Logo')) || null;
+const heroPhoto = ownerImages.find(i => i.src.includes('\u0E04\u0E38\u0E13\u0E2D\u0E38\u0E49\u0E21-\u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07\u0E40\u0E0A\u0E35\u0E22\u0E07\u0E43\u0E2B\u0E21\u0E48-5')) || null;
+
+const strengthsContent = strengthsSection?.content?.replace('\u0E08\u0E38\u0E14\u0E40\u0E14\u0E48\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32\n', '') || '';
+const storyContent = storySection?.content?.replace('\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E40\u0E23\u0E32\n', '') || '';
+const missionContent = missionSection?.content?.replace(missionSection?.title || '', '')?.trim() || '';
+---
+
+<Layout title={'\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E40\u0E23\u0E32 | Party Villa Balloons'}>
+  <Header currentPath={Astro.url.pathname} />
+
+  <section class="hero-parallax" style={`background-image: url('${heroBg}');`}>
+    <div class="hero-content">
+      <h1>{'\u0E40\u0E01\u0E35\u0E48\u0E22\u0E27\u0E01\u0E31\u0E1A\u0E40\u0E23\u0E32'}</h1>
+      <p>{'\u0E23\u0E39\u0E49\u0E08\u0E31\u0E01\u0E01\u0E31\u0E1A Party Villa Balloons'}</p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container" style="max-width:1000px;">
+      <div class="story-grid">
+        <div class="story-images">
+          {ownerPhoto && (
+            <img src={ownerPhoto.src} alt={ownerPhoto.alt} class="story-main-img" />
+          )}
+          {heroPhoto && (
+            <img src={heroPhoto.src} alt={heroPhoto.alt} class="story-secondary-img" />
+          )}
+          {logoImage && (
+            <img src={logoImage.src} alt={logoImage.alt} class="story-logo" />
+          )}
+        </div>
+        <div class="story-text">
+          <h3 class="section-subtitle" style="color:var(--primary); font-weight:400;">{'\u0E08\u0E32\u0E01\u0E04\u0E27\u0E32\u0E21\u0E0A\u0E2D\u0E1A\u0E2A\u0E39\u0E48\u0E04\u0E27\u0E32\u0E21\u0E40\u0E0A\u0E35\u0E48\u0E22\u0E27\u0E0A\u0E32\u0E0D'}</h3>
+          <h2 class="story-heading">{'\u0E40\u0E2A\u0E49\u0E19\u0E17\u0E32\u0E07\u0E02\u0E2D\u0E07 Party Villa Balloon \u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07\u0E40\u0E0A\u0E35\u0E22\u0E07\u0E43\u0E2B\u0E21\u0E48'}</h2>
+          <div class="story-body" set:html={storyContent}></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {strengthsSection && (
+    <section class="section-padding" style="background:var(--bg-light);">
+      <div class="container" style="max-width:900px;">
+        <div class="strengths-header">
+          <h2 class="section-title">{'\u0E08\u0E38\u0E14\u0E40\u0E14\u0E48\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32'}</h2>
+          <p class="section-subtitle">{'\u0E1A\u0E23\u0E34\u0E29\u0E31\u0E17 \u0E1B\u0E32\u0E23\u0E4C\u0E15\u0E35\u0E49 \u0E27\u0E34\u0E25\u0E25\u0E48\u0E32 \u0E1A\u0E2D\u0E25\u0E25\u0E39\u0E19 \u0E08\u0E33\u0E01\u0E31\u0E14 \u0E40\u0E1B\u0E47\u0E19\u0E1C\u0E39\u0E49\u0E40\u0E0A\u0E35\u0E48\u0E22\u0E27\u0E0A\u0E32\u0E0D\u0E14\u0E49\u0E32\u0E19\u0E25\u0E39\u0E01\u0E42\u0E1B\u0E48\u0E07\u0E15\u0E01\u0E41\u0E15\u0E48\u0E07\u0E17\u0E38\u0E01\u0E1B\u0E23\u0E30\u0E40\u0E20\u0E17 \u0E14\u0E49\u0E27\u0E22\u0E1B\u0E23\u0E30\u0E2A\u0E1A\u0E01\u0E32\u0E23\u0E13\u0E4C\u0E21\u0E32\u0E01\u0E01\u0E27\u0E48\u0E32 8 \u0E1B\u0E35'}</p>
+        </div>
+        <div class="strengths-content" set:html={strengthsContent}></div>
+      </div>
+    </section>
+  )}
+
+  {tagline && (
+    <section class="section-padding" style="text-align:center;">
+      <div class="container" style="max-width:800px;">
+        <blockquote class="tagline-quote">
+          "{tagline.title}"
+        </blockquote>
+      </div>
+    </section>
+  )}
+
+  {teamImages.length > 0 && (
+    <section class="section-padding" style="background:var(--bg-light);">
+      <div class="container" style="max-width:1000px;">
+        <h2 class="section-title">{'\u0E17\u0E35\u0E21\u0E07\u0E32\u0E19\u0E02\u0E2D\u0E07\u0E40\u0E23\u0E32'}</h2>
+        <div class="team-grid">
+          {teamImages.map(img => (
+            <div class="team-card">
+              <img src={img.src} alt={img.alt} loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {missionSection && (
+    <section class="section-padding">
+      <div class="container" style="max-width:900px;">
+        <div class="mission-box">
+          <h3 class="mission-title">{missionSection.title}</h3>
+          <div class="mission-body" set:html={missionContent}></div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Footer />
+</Layout>
+
+<style>
+  .story-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; align-items: start; }
+  .story-images { display: flex; flex-direction: column; gap: 16px; }
+  .story-main-img { border-radius: var(--radius); box-shadow: var(--shadow-md); width: 100%; }
+  .story-secondary-img { border-radius: var(--radius); box-shadow: var(--shadow-sm); width: 100%; }
+  .story-logo { max-width: 180px; margin: 0 auto; display: block; }
+  .story-heading { font-size: 1.4rem; margin-bottom: 16px; color: var(--text-color); }
+  .story-body { line-height: 2; font-size: 1rem; }
+  .story-body :global(p) { margin-bottom: 16px; }
+  .strengths-header { text-align: center; margin-bottom: 30px; }
+  .strengths-content { line-height: 2; font-size: 1.05rem; }
+  .strengths-content :global(ol), .strengths-content :global(ul) { padding-left: 24px; margin: 12px 0; }
+  .strengths-content :global(li) { margin-bottom: 8px; }
+  .strengths-content :global(strong) { color: var(--primary); }
+  .tagline-quote { font-size: 1.3rem; color: var(--primary); font-weight: 700; line-height: 1.6; }
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .team-card { border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-sm); }
+  .team-card img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 1; }
+  .mission-box { background: #fff; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 40px; text-align: center; }
+  .mission-title { color: var(--primary); margin-bottom: 16px; font-size: 1.3rem; }
+  .mission-body { line-height: 2; max-width: 700px; margin: 0 auto; }
+  .mission-body :global(a) { color: var(--primary); font-weight: 500; }
+  @media (max-width: 768px) { .story-grid { grid-template-columns: 1fr; } .team-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
